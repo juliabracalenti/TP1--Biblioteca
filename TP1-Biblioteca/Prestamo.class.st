@@ -5,7 +5,7 @@ devolución. Esa fecha es lo único que cambia después de creado. Un préstamo 
 
 *material: el material por el cual se inició el préstamo.
 *inicio: fecha en que se retira el material.
-*vencimiento: indica si se ha vencido el tiempo para devolver el libro con un bool
+*vencimiento: fecha de vencimiento de un material.
 devolucion: fecha en la que efectivamente se ha devuelto el libro
 "
 Class {
@@ -21,3 +21,69 @@ Class {
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
 }
+
+{ #category : 'accessing' }
+Prestamo >> devolucion [
+	"getter de fecha de devolucion"
+^devolucion 
+]
+
+{ #category : 'accessing' }
+Prestamo >> devolucion: unaFecha [
+	"setter de fecha de devolución"
+devolucion:= unaFecha .
+^self
+]
+
+{ #category : 'accessing' }
+Prestamo >> inicio [
+
+"getter inicio"
+^inicio 
+]
+
+{ #category : 'initialization' }
+Prestamo >> initialize [ 
+	"agrega automáticamente la fecha de inicio cuando se crea una nueva instancia de préstamo con la fecha actual y la fecha de vencimiento según el tipo de material"
+
+	| fechaActual fechaVencimiento |
+	
+fechaActual := Time now. "esto va a haber que modificarlo con la libreria del tp de tiempo"
+fechaVencimiento := fechaActual + material plazoVencimiento.
+
+inicio:= fechaActual.
+vencimiento := fechaVencimiento .
+^self
+
+]
+
+{ #category : 'accessing' }
+Prestamo >> lector [
+	"getter lector"
+^lector
+]
+
+{ #category : 'accessing' }
+Prestamo >> lector: unLector [
+"setter lector"
+lector:= unLector.
+]
+
+{ #category : 'accessing' }
+Prestamo >> material [
+	"getter material"
+^material
+]
+
+{ #category : 'accessing' }
+Prestamo >> material: unMaterial [
+"setter material"
+material:= unMaterial
+]
+
+{ #category : 'accessing' }
+Prestamo >> vencimiento [
+
+"getter vencimiento"
+^vencimiento 
+]

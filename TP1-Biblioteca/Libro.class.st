@@ -8,9 +8,14 @@ Class {
 	#name : 'Libro',
 	#superclass : 'MaterialCatalogado',
 	#instVars : [
-		'identificador',
 		'plazoPrestamo'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
 }
+
+{ #category : 'as yet unclassified' }
+Libro >> plazoVencimiento [ 
+	"getter días de vencimiento"
+^plazoPrestamo 
+]
