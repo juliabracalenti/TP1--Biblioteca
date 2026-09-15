@@ -30,7 +30,7 @@ unaBiblioteca nombrar: unNombre.
 ^unaBiblioteca 
 ]
 
-{ #category : 'funcionamientoBiblioteca' }
+{ #category : 'updating' }
 Biblioteca >> agregarLector: unLector [
 	"recibe un lector y lo agrega a la lista de lectores y lo retorna. Si ya estaba en la lista retorna nil"
 	
@@ -45,7 +45,7 @@ lectores ifNil: [ lectores:= OrderedCollection new. lectores add: unLector. lect
 										
 ]
 
-{ #category : 'funcionamientoBiblioteca' }
+{ #category : 'updating' }
 Biblioteca >> catalogar: unMaterial [
 "catalogar recibe un material(libro o revista) y lo coloca en el catálogo. Si es el primer material crea un catálogo primero"
 
@@ -63,11 +63,10 @@ Biblioteca >> catalogar: unMaterial [
 { #category : 'accessing' }
 Biblioteca >> catalogo [
 	"getter catalogo"
-	
-^catalogo 
+^catalogo
 ]
 
-{ #category : 'funcionamientoBiblioteca' }
+{ #category : 'updating' }
 Biblioteca >> devolver: unNumeroIdentificador [
 	"devuelve una instancia de préstamo correspondiente al numero de id del material pero cerrada"
 
@@ -85,7 +84,19 @@ Biblioteca >> devolver: unNumeroIdentificador [
 	"esto supone que el préstamo existe. hay que preguntar si puede pasar que no exista"
 ]
 
-{ #category : 'buscarEnBiblioteca' }
+{ #category : 'accessing' }
+Biblioteca >> estaPrestado: unCodigo [
+	"devuelve true si el material asociado al código está prestado actualmente y false si no lo está"
+
+	| materialEstaPrestado prestamosAsociadosAcodigo |
+	
+	prestamosAsociadosAcodigo := prestamos select: [ :cadaPrestamo | cadaPrestamo  identificador == unCodigo ].
+	materialEstaPrestado := prestamosAsociadosAcodigo anySatisfy: [ :cadaPrestamo | cadaPrestamo devolucion isNil ].
+	
+	^materialEstaPrestado 
+]
+
+{ #category : 'finding/searching' }
 Biblioteca >> lectorNumero: unNumero [
 	"busca y devuelve un lector asociado a el numero ingresado. Si no hay ninguno asociado a ese número se muestra un mensaje en pantalla y retorna nil"
 
@@ -104,7 +115,7 @@ Biblioteca >> lectores [
 ^lectores 
 ]
 
-{ #category : 'buscarEnBiblioteca' }
+{ #category : 'finding/searching' }
 Biblioteca >> materialNumero: unNumero [
 	"busca y devuelve un material asociado a el numero ingresado. Si no hay ninguno asociado a ese número se muestra un mensaje en pantalla y retorna nil"
 
@@ -116,7 +127,7 @@ Biblioteca >> materialNumero: unNumero [
 	^materialAsociado 
 ]
 
-{ #category : 'buscarEnBiblioteca' }
+{ #category : 'finding/searching' }
 Biblioteca >> materialesDe: unAutor [
 	"selecciona y devuelve del catálogo la lista de materiales que son del autor ingresado"
 
@@ -141,13 +152,26 @@ Biblioteca >> nombre [
 ]
 
 { #category : 'accessing' }
+Biblioteca >> prestamoVigenteDe: unNumeroSocio [
+	"devuelve todas las instancias de prestamos vigentes del socio asociado al número"
+
+
+	| prestamosAsociadosASocioVigentes |
+	
+	prestamosAsociadosASocioVigentes := prestamos select: [ :cadaPrestamo | 
+				(cadaPrestamo lector) numero == unNumeroSocio and: ( cadaPrestamo devolucion isNil ) ].
+
+^prestamosAsociadosASocioVigentes 
+]
+
+{ #category : 'accessing' }
 Biblioteca >> prestamos [
 	"getter prestamos"
 	
 ^prestamos 
 ]
 
-{ #category : 'funcionamientoBiblioteca' }
+{ #category : 'updating' }
 Biblioteca >> prestar: unCodigo a: unNumero [
 	"crea un préstamo del material al lector, lo agrega al registro y lo retorna. Si el código o el socio no existen, si el lector es moroso, o si el material ya está prestado, retorna nil e informa por el Transcript la situación"
 	
@@ -156,7 +180,7 @@ Biblioteca >> prestar: unCodigo a: unNumero [
 	lectorPrestamo := lectores lectorNumero: unNumero .
 	materialPrestamo := catalogo materialNumero: unCodigo.
 	
-	validezPrestamo :=(((lectorPrestamo isNotNil or: materialPrestamo) isNotNil or: lectorPrestamo moroso)" or: prestamos estaPrestado: unCodigo"). " //falta definir metodo estaPrestado "
+	validezPrestamo := (((lectorPrestamo isNotNil or: (materialPrestamo isNotNil)) or: (lectorPrestamo moroso)) or: (prestamos estaPrestado: unCodigo)). 
 	 
 	validezPrestamo ifTrue: [ "crear préstamo con estos datos
 										prestamoArealizar:= ...." ] 
