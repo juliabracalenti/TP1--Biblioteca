@@ -30,7 +30,22 @@ unaBiblioteca nombrar: unNombre.
 ^unaBiblioteca 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'funcionamientoBiblioteca' }
+Biblioteca >> agregarLector: unLector [
+	"recibe un lector y lo agrega a la lista de lectores y lo retorna. Si ya estaba en la lista retorna nil"
+	
+|lectorRetorno|
+
+lectores ifNil: [ lectores:= OrderedCollection new. lectores add: unLector. lectorRetorno:=unLector ]
+			ifNotNil: [ (lectores anySatisfy: [:cadaLector | cadaLector numero == unLector numero ])
+												ifTrue: [ Transcript open; show:'este lector ya está ingresado en el sistema de la biblioteca: ';show:nombre;cr.]
+												ifFalse:[ lectores add: unLector. lectorRetorno :=unLector]
+															].
+^lectorRetorno 													
+										
+]
+
+{ #category : 'funcionamientoBiblioteca' }
 Biblioteca >> catalogar: unMaterial [
 "catalogar recibe un material(libro o revista) y lo coloca en el catálogo. Si es el primer material crea un catálogo primero"
 
@@ -52,7 +67,7 @@ Biblioteca >> catalogo [
 ^catalogo 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'funcionamientoBiblioteca' }
 Biblioteca >> devolver: unNumeroIdentificador [
 	"devuelve una instancia de préstamo correspondiente al numero de id del material pero cerrada"
 
@@ -70,11 +85,47 @@ Biblioteca >> devolver: unNumeroIdentificador [
 	"esto supone que el préstamo existe. hay que preguntar si puede pasar que no exista"
 ]
 
+{ #category : 'buscarEnBiblioteca' }
+Biblioteca >> lectorNumero: unNumero [
+	"busca y devuelve un lector asociado a el numero ingresado. Si no hay ninguno asociado a ese número se muestra un mensaje en pantalla y retorna nil"
+
+	| lectorAsociado |
+	
+	lectorAsociado := (lectores detect:[:cadaLector | cadaLector numero == unNumero ]ifNone:[nil]).
+	lectorAsociado ifNil: [Transcript open; show: 'No existe ningún lector asociado al número '; show: unNumero; cr] .
+	
+	^lectorAsociado 
+]
+
 { #category : 'accessing' }
 Biblioteca >> lectores [
 	"getter lectores"
 	
 ^lectores 
+]
+
+{ #category : 'buscarEnBiblioteca' }
+Biblioteca >> materialNumero: unNumero [
+	"busca y devuelve un material asociado a el numero ingresado. Si no hay ninguno asociado a ese número se muestra un mensaje en pantalla y retorna nil"
+
+	| materialAsociado |
+	
+	materialAsociado := (catalogo detect:[:cadaMaterial | cadaMaterial identificador == unNumero ]ifNone:[nil]).
+	materialAsociado ifNil: [Transcript open; show: 'No existe ningún material asociado al número '; show: unNumero; cr] .
+	
+	^materialAsociado 
+]
+
+{ #category : 'buscarEnBiblioteca' }
+Biblioteca >> materialesDe: unAutor [
+	"selecciona y devuelve del catálogo la lista de materiales que son del autor ingresado"
+
+	| listaDelAutor |
+	
+listaDelAutor := catalogo select:[:cadaMaterial | cadaMaterial autores == unAutor ].
+
+^listaDelAutor 
+
 ]
 
 { #category : 'accessing' }
@@ -94,4 +145,22 @@ Biblioteca >> prestamos [
 	"getter prestamos"
 	
 ^prestamos 
+]
+
+{ #category : 'funcionamientoBiblioteca' }
+Biblioteca >> prestar: unCodigo a: unNumero [
+	"crea un préstamo del material al lector, lo agrega al registro y lo retorna. Si el código o el socio no existen, si el lector es moroso, o si el material ya está prestado, retorna nil e informa por el Transcript la situación"
+	
+|lectorPrestamo materialPrestamo prestamoArealizar validezPrestamo|
+
+	lectorPrestamo := lectores lectorNumero: unNumero .
+	materialPrestamo := catalogo materialNumero: unCodigo.
+	
+	validezPrestamo :=(((lectorPrestamo isNotNil or: materialPrestamo) isNotNil or: lectorPrestamo moroso)" or: prestamos estaPrestado: unCodigo"). " //falta definir metodo estaPrestado "
+	 
+	validezPrestamo ifTrue: [ "crear préstamo con estos datos
+										prestamoArealizar:= ...." ] 
+						ifFalse:[Transcript show: 'No se pudo crear el préstamo.'; cr.].	
+							
+		^prestamoArealizar 
 ]
