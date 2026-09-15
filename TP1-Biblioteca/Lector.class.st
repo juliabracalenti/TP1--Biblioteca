@@ -18,67 +18,63 @@ Class {
 	#package : 'TP1-Biblioteca'
 }
 
+{ #category : 'instance creation' }
+Lector class >> numero: unNumero cuit: unCuit nombre: unNombre apellido: unApellido [
+	|instancia|
+	instancia := self new.
+	instancia
+		numero: unNumero;
+		cuit: unCuit;
+		nombre: unNombre;
+		apellido: unApellido.
+	^instancia.
+]
+
 { #category : 'accessing' }
 Lector >> apellido [
 	"getter apellido"
-^apellido 
+	^apellido 
 ]
 
 { #category : 'accessing' }
 Lector >> apellido: unApellido [
- "setter apellido"
-apellido:=unApellido .
+	"setter apellido"
+	apellido := unApellido.
 ]
 
 { #category : 'accessing' }
 Lector >> cuit [
 	"getter cuit"
-^cuit
+	^cuit
 ]
 
 { #category : 'accessing' }
 Lector >> cuit: unCuit [
 	"setter cuit"
-
-cuit:= unCuit .
-]
-
-{ #category : 'accessing' }
-Lector >> moroso [
-	"getter morosidad"
-^moroso
-]
-
-{ #category : 'accessing' }
-Lector >> moroso: esMoroso [
-	"setter moroso"
-
-moroso:=esMoroso .
+	cuit := unCuit.
 ]
 
 { #category : 'accessing' }
 Lector >> nombre [
 	"getter nombre"
-^nombre 
+	^nombre 
 ]
 
 { #category : 'accessing' }
 Lector >> nombre: unNombre [
- "setter nombre"
-nombre:=unNombre .
+	"setter nombre"
+	nombre := unNombre.
 ]
 
 { #category : 'accessing' }
 Lector >> numero [
 	"getter numero de socio"
-	
-^numero 
+	^numero 
 	
 ]
 
 { #category : 'accessing' }
 Lector >> numero: unNumeroDeSocio [
 	"setter numero de socio"
-
-numero:=unNumeroDeSocio .
+	numero := unNumeroDeSocio.
 ]
