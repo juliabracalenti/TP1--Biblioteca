@@ -26,8 +26,7 @@ Lector class >> numero: unNumero cuit: unCuit nombre: unNombre apellido: unApell
 		numero: unNumero;
 		cuit: unCuit;
 		nombre: unNombre;
-		apellido: unApellido;
-		rehabilitar.
+		apellido: unApellido.
 	^instancia.
 ]
 
@@ -40,14 +39,7 @@ Lector >> apellido [
 { #category : 'accessing' }
 Lector >> apellido: unApellido [
 	"setter apellido"
-	(unApellido isString)
-		ifFalse: [ self error: 'El apellido debe ser de tipo String' ].
 	apellido := unApellido.
-]
-
-{ #category : 'accessing' }
-Lector >> apellidoContiene: unTexto [
-	^apellido contains: unTexto.
 ]
 
 { #category : 'accessing' }
@@ -63,17 +55,6 @@ Lector >> cuit: unCuit [
 ]
 
 { #category : 'accessing' }
-Lector >> esMoroso [
-	^(moroso) ifTrue: [ true ] ifFalse: [ false ].
-]
-
-{ #category : 'accessing' }
-Lector >> marcarMoroso [
-	moroso := true.
-	^self.
-]
-
-{ #category : 'accessing' }
 Lector >> nombre [
 	"getter nombre"
 	^nombre 
@@ -82,14 +63,7 @@ Lector >> nombre [
 { #category : 'accessing' }
 Lector >> nombre: unNombre [
 	"setter nombre"
-	(unNombre isString)
-		ifFalse: [ self error: 'El nombre debe ser de tipo String' ].
 	nombre := unNombre.
-]
-
-{ #category : 'printing' }
-Lector >> nombreCompleto [
-	^(nombre, ' ', apellido).
 ]
 
 { #category : 'accessing' }
@@ -102,13 +76,5 @@ Lector >> numero [
 { #category : 'accessing' }
 Lector >> numero: unNumeroDeSocio [
 	"setter numero de socio"
-	(unNumeroDeSocio isInteger)
-		ifFalse: [ self error: 'El numero de socio debe ser de tipo Integer' ].
 	numero := unNumeroDeSocio.
-]
-
-{ #category : 'accessing' }
-Lector >> rehabilitar [
-	moroso := false.
-	^self.
 ]
