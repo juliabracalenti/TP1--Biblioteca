@@ -82,6 +82,7 @@ paginas:= cantidadPaginas .
 { #category : 'as yet unclassified' }
 MaterialCatalogado >> plazoVencimiento [
 	"getter días de vencimiento de material para devolver"
+^self subclassResponsibility 
 ]
 
 { #category : 'accessing' }
