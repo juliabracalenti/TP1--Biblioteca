@@ -77,6 +77,13 @@ Lector >> marcarMoroso [
 ]
 
 { #category : 'accessing' }
+Lector >> motivoDeRechazo [
+	^moroso
+		ifTrue: [ #enMora ]
+		ifFalse: [ ].
+]
+
+{ #category : 'accessing' }
 Lector >> nombre [
 	"getter nombre"
 	^nombre 
