@@ -39,6 +39,7 @@ Lector >> apellido [
 
 { #category : 'accessing' }
 Lector >> apellido: unApellido [
+"setter apellido"
 	unApellido isString
 		ifFalse: [ self error: 'El apellido debe ser de tipo String' ].
 	apellido := unApellido.
@@ -46,6 +47,7 @@ Lector >> apellido: unApellido [
 
 { #category : 'comparing' }
 Lector >> apellidoContiene: unTexto [
+"devuelve un booleano true si apellido contiene al texto ingresado, false si no lo hace"
 	unTexto isString
 		ifFalse: [ self error: 'El argumento debe ser de tipo String' ].
 	^apellido asLowercase includesSubstring: unTexto asLowercase.
@@ -67,6 +69,7 @@ Lector >> cuit: unCuit [
 
 { #category : 'accessing' }
 Lector >> esMoroso [
+"getter moroso"
 	^moroso.
 ]
 

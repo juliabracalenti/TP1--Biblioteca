@@ -15,7 +15,8 @@ Class {
 		'datePort',
 		'catalogo',
 		'lectores',
-		'prestamos'
+		'prestamos',
+		'fichas'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
@@ -38,11 +39,21 @@ Biblioteca >> agregarLector: unLector [
 
 lectores ifNil: [ lectores:= OrderedCollection new. lectores add: unLector. lectorRetorno:=unLector ]
 			ifNotNil: [ (lectores anySatisfy: [:cadaLector | cadaLector numero == unLector numero ])
-												ifTrue: [ Transcript open; show:'este lector ya está ingresado en el sistema de la biblioteca: ';show:nombre;cr.]
+												ifTrue: [ Transcript open; show:'este lector ya está ingresado en el sistema de la biblioteca: '; show: nombre; cr.]
 												ifFalse:[ lectores add: unLector. lectorRetorno :=unLector]
 															].
 ^lectorRetorno 													
 										
+]
+
+{ #category : 'accessing' }
+Biblioteca >> buscarLectoresPorApellido: unTexto [
+"busca y colecciona todas las fichas cuyos apellidos contengan unTexto (no necesariamente son iguales unTexto y el apellido, sino que apellido al menos contiene unTexto)"
+| fichasCoincidentes |
+
+fichasCoincidentes := fichas select: [ :cadaFicha | (unTexto asLowercase) includesSubstring: (cadaFicha apellido) asLowercase ].
+
+^fichasCoincidentes 
 ]
 
 { #category : 'accessing' }
@@ -99,7 +110,7 @@ Biblioteca >> devolver: unNumeroIdentificador [
 Biblioteca >> esMoroso: unNumero [
 	"devuelve verdadero si el lector es moroso y falso si no lo es o no existe"
 
-	| morosidad lector |
+	| morosidad |
 	
 	( self lectorNumero: unNumero )
 		ifNil:[ morosidad:= false ] 
@@ -117,6 +128,28 @@ Biblioteca >> estaPrestado: unCodigo [
 	materialEstaPrestado := (self prestamosVigentes ) anySatisfy: [ :cadaPrestamoVigente | (cadaPrestamoVigente material) identificador = unCodigo ].
 	
 	^materialEstaPrestado 
+]
+
+{ #category : 'accessing' }
+Biblioteca >> identificarCuit: unCuit [
+"devuelve la ficha de cuit asociado a ese número o nil"
+| fichaSolicitada |
+
+fichaSolicitada := fichas detect: [ :cadaFicha | cadaFicha cuit = unCuit ] ifNone: [ Transcript open; show: 'no existe una ficha asociada a este cuit '; show: unCuit ;cr ].
+
+^fichaSolicitada 
+
+]
+
+{ #category : 'accessing' }
+Biblioteca >> identificarSocio: unNumero [
+"devuelve la ficha de socio asociada a ese número o nil"
+| fichaSolicitada |
+
+fichaSolicitada := fichas detect: [ :cadaFicha | cadaFicha numero = unNumero ] ifNone: [ Transcript open; show: 'no existe una ficha asociada a este número: '; show: unNumero;cr ].
+
+^fichaSolicitada 
+
 ]
 
 { #category : 'accessing' }
@@ -259,11 +292,13 @@ Biblioteca >> prestar: unCodigo a: unNumero [
 	lectorPrestamo := lectores lectorNumero: unNumero .
 	materialPrestamo := catalogo materialNumero: unCodigo.
 	
-	validezPrestamo := (((lectorPrestamo isNotNil or: (materialPrestamo isNotNil)) or: (lectorPrestamo moroso)) or: (prestamos estaPrestado: unCodigo)). 
+	validezPrestamo := lectorPrestamo isNotNil or: (materialPrestamo isNotNil or: (lectorPrestamo moroso or: (prestamos estaPrestado: unCodigo))). 
 	 
-	validezPrestamo ifTrue: [ "crear préstamo con estos datos
-										prestamoArealizar:= ...." ] 
-						ifFalse:[Transcript show: 'No se pudo crear el préstamo.'; cr.].	
+	validezPrestamo 
+	  ifTrue: [ prestamoArealizar:= Prestamo material: materialPrestamo lector: lectorPrestamo instante: (Time now).
+			 prestamos add: prestamoArealizar ] "va a haber que cambiar esto con el dateport" 
+		
+    	ifFalse:[Transcript show: 'No se pudo crear el préstamo.'; cr.].	
 							
 		^prestamoArealizar 
 ]

@@ -40,13 +40,13 @@ Prestamo >> descripcion [
 	^ 'Se presto ' , material titulo , ' al lector ' , lector nombreCompleto , ' desde ' , inicio , ' hasta ', 'vencimiento'
 ]
 
-{ #category : 'accessing' }
+{ #category : 'getter' }
 Prestamo >> devolucion [
 	"getter de fecha de devolucion"
 ^devolucion 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'updating' }
 Prestamo >> devolucion: unaFecha [
 	"setter de fecha de devolución"
 devolucion:= unaFecha .
@@ -62,7 +62,7 @@ Prestamo >> dias [
 	
 ]
 
-{ #category : 'accessing' }
+{ #category : 'support' }
 Prestamo >> diasTranscurridosHasta: unInstante [
 	"Dias entre el inicio del prestamo y un instante"
 	^(unInstante - inicio)days
@@ -92,14 +92,14 @@ Prestamo >> excedioPlazo [
 	^ self estaCerrado and:[devolucion > vencimiento]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'getter' }
 Prestamo >> inicio [
 
 "getter inicio"
 ^inicio 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'setter' }
 Prestamo >> inicioYvencimiento: unInstante [
 	"setter de inicio y vencimiento"
 	inicio := unInstante .
@@ -107,40 +107,25 @@ Prestamo >> inicioYvencimiento: unInstante [
 	
 ]
 
-{ #category : 'initialization' }
-Prestamo >> initialize [ 
-	"agrega automáticamente la fecha de inicio cuando se crea una nueva instancia de préstamo con la fecha actual y la fecha de vencimiento según el tipo de material"
-
-	| fechaActual fechaVencimiento |
-	
-fechaActual := Time now. "esto va a haber que modificarlo con la libreria del tp de tiempo"
-fechaVencimiento := fechaActual + material plazoVencimiento.
-
-inicio:= fechaActual.
-vencimiento := fechaVencimiento .
-^self
-
-]
-
-{ #category : 'accessing' }
+{ #category : 'getter' }
 Prestamo >> lector [
 	"getter lector"
 ^lector
 ]
 
-{ #category : 'accessing' }
+{ #category : 'setter' }
 Prestamo >> lector: unLector [
 "setter lector"
 lector:= unLector.
 ]
 
-{ #category : 'accessing' }
+{ #category : 'getter' }
 Prestamo >> material [
 	"getter material"
 ^material
 ]
 
-{ #category : 'accessing' }
+{ #category : 'setter' }
 Prestamo >> material: unMaterial [
 "setter material"
 material:= unMaterial
@@ -152,7 +137,7 @@ Prestamo >> plazoEnDias [
 	^(vencimiento - inicio )days
 ]
 
-{ #category : 'accessing' }
+{ #category : 'updating' }
 Prestamo >> registrarDevolucion: unInstante [
 	"Le anota la fecha de devolución y lo deja cerrado. Es su único cambio de estado. Si ya estaba cerrado informa por el Transcript y no lo cambia. Retorna el receptor."
 	(self estaVigente)
@@ -160,7 +145,7 @@ Prestamo >> registrarDevolucion: unInstante [
 	^self
 ]
 
-{ #category : 'accessing' }
+{ #category : 'getter' }
 Prestamo >> vencimiento [
 
 "getter vencimiento"

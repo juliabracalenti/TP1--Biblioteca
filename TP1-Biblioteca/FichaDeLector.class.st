@@ -34,13 +34,13 @@ FichaDeLector class >> deLector: unLector conPrestamosVigentes: unaColeccionDePr
 
 { #category : 'accessing' }
 FichaDeLector >> cantidadEnPoder [
-	"comment stating purpose of instance-side method"
+	"cdevuelve la cantidad de material que tiene el lector en posesión actualmente"
 	^codigosEnPoder size 
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> codigosEnPoder [
-"getter de codigosEnPoder"
+"devuelve una lista de los códigos de los materiales que tiene actualmetne en su poder"
 ^codigosEnPoder 
 
 	
@@ -48,16 +48,19 @@ FichaDeLector >> codigosEnPoder [
 
 { #category : 'accessing' }
 FichaDeLector >> cuit [
+"getter cuit"
 	^cuit.
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> esMoroso [
+"getter es moroso"
 	^esMoroso.
 ]
 
 { #category : 'private - factory' }
 FichaDeLector >> initializeFicha: conLector [
+"inicialización completa de una Ficha"
 	numero := conLector numero.
 	cuit := conLector cuit.
 	nombreCompleto := conLector nombreCompleto.
@@ -68,26 +71,30 @@ FichaDeLector >> initializeFicha: conLector [
 
 { #category : 'private - factory' }
 FichaDeLector >> initializeFichaconPrestamos: prestamosVigentes [
-	"comment stating purpose of instance-side method"
+	"devuelve una ficha inicializada con un préstamo"
 	codigosEnPoder := prestamosVigentes collect: [ :unPrestamo | unPrestamo material identificador ].
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> motivoDeRechazo [
+"getter motivo de rechazo"
 	^motivoDeRechazo.
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> nombreCompleto [
+"getter nombre completo"
 	^nombreCompleto.
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> numero [
+"getter numero"
 	^numero.
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> puedeLlevar [
+"getter puedeLlevar"
 	^puedeLlevar.
 ]
