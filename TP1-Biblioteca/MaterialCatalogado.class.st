@@ -35,8 +35,10 @@ anioDeEdicion := unAnio .
 
 { #category : 'accessing' }
 MaterialCatalogado >> autores [
-"getter autores"
-^autores 
+"getter autores copia"
+	|autorescopia|
+autorescopia:=autores.
+^autorescopia 
 ]
 
 { #category : 'accessing' }
