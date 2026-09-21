@@ -16,6 +16,11 @@ Class {
 	#package : 'TP1-Biblioteca'
 }
 
+{ #category : 'testing' }
+MaterialCatalogado class >> isAbstract [
+	^true.
+]
+
 { #category : 'accessing' }
 MaterialCatalogado >> anioDeEdicion [
 "getter año de edición"

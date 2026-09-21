@@ -14,6 +14,11 @@ Class {
 	#package : 'TP1-Biblioteca'
 }
 
+{ #category : 'testing' }
+Libro class >> isAbstract [
+	^false.
+]
+
 { #category : 'as yet unclassified' }
 Libro >> plazoVencimiento [ 
 	"getter días de vencimiento"

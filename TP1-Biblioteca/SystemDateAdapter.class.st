@@ -7,3 +7,8 @@ Class {
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
 }
+
+{ #category : 'testing' }
+SystemDateAdapter class >> isAbstract [
+	^false.
+]

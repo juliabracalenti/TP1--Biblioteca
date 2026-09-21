@@ -19,6 +19,11 @@ FakeDateAdapter class >> en: unDateAndTime [
 forzarFecha: unDateAndTime.
 ]
 
+{ #category : 'testing' }
+FakeDateAdapter class >> isAbstract [
+	^false.
+]
+
 { #category : 'as yet unclassified' }
 FakeDateAdapter >> forzarFecha: unDateAndTime [
 "Planta el reloj en ese instante exacto. Es el mensaje para poner el sistema en la fecha que haga falta"

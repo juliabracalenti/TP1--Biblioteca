@@ -8,6 +8,11 @@ Class {
 	#package : 'TP1-Biblioteca'
 }
 
+{ #category : 'testing' }
+DatePort class >> isAbstract [
+	^true.
+]
+
 { #category : 'accessing' }
 DatePort >> now [
 	"devuelve la fecha actual o una fecha forzada en caso de pruebas"

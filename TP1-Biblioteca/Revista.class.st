@@ -16,6 +16,11 @@ Class {
 	#package : 'TP1-Biblioteca'
 }
 
+{ #category : 'testing' }
+Revista class >> isAbstract [
+	^false.
+]
+
 { #category : 'as yet unclassified' }
 Revista >> plazoVencimiento [ 
 	"getter días de vencimiento"
