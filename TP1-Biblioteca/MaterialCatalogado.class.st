@@ -38,7 +38,7 @@ MaterialCatalogado >> autores [
 MaterialCatalogado >> autores: unAutor [
 "setter autores"
 
-autores ifNil: [ autores:= SortedCollection new. ].
+autores ifNil: [ autores:= OrderedCollection new. ].
 autores add: unAutor. 
 ]
 
