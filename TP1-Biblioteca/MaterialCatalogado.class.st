@@ -84,7 +84,7 @@ MaterialCatalogado >> paginas: cantidadPaginas [
 paginas:= cantidadPaginas .
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 MaterialCatalogado >> plazoVencimiento [
 	"getter días de vencimiento de material para devolver"
 ^self subclassResponsibility 
