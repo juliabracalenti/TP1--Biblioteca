@@ -50,6 +50,14 @@ autores add: unAutor.
 ]
 
 { #category : 'accessing' }
+MaterialCatalogado >> autorPrincipal [
+"getter autorPrincipal"
+|autorPrincipal|
+autores ifNil: [ autorPrincipal:= nil. ] ifNotNil: [autorPrincipal:= autores at: 1.]
+^autorPrincipal 
+]
+
+{ #category : 'accessing' }
 MaterialCatalogado >> editorial [
 "getter editorial"
 ^editorial 
