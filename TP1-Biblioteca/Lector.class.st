@@ -48,7 +48,7 @@ Lector >> apellido: unApellido [
 Lector >> apellidoContiene: unTexto [
 	unTexto isString
 		ifFalse: [ self error: 'El argumento debe ser de tipo String' ].
-	^apellido includesSubstring: unTexto.
+	^apellido asLowercase includesSubstring: unTexto asLowercase.
 ]
 
 { #category : 'accessing' }
