@@ -101,13 +101,13 @@ MaterialCatalogado >> titulo [
 
 { #category : 'accessing' }
 MaterialCatalogado >> descripcion: unString [
- "setter identificador"
+ "setter descripcion"
 descripcion :=unString.
 ]
 
 { #category : 'accessing' }
 MaterialCatalogado >> descripcion [
- "getter identificador"
+ "getter descripcion"
 ^descripcion
 ]
 
