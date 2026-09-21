@@ -99,3 +99,16 @@ MaterialCatalogado >> titulo [
 ^titulo 
 ]
 
+{ #category : 'accessing' }
+MaterialCatalogado >> descripcion: unString [
+ "setter identificador"
+descripcion :=unString.
+]
+
+{ #category : 'accessing' }
+MaterialCatalogado >> descripcion [
+ "getter identificador"
+^descripcion
+]
+
+
