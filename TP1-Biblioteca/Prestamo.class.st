@@ -23,6 +23,13 @@ Class {
 }
 
 { #category : 'accessing' }
+Prestamo >> caca [
+	"comment stating purpose of instance-side method"
+	"scope: class-variables  &  instance-variables"
+^1
+]
+
+{ #category : 'accessing' }
 Prestamo >> devolucion [
 	"getter de fecha de devolucion"
 ^devolucion 
