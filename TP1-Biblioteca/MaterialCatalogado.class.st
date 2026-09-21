@@ -28,12 +28,6 @@ MaterialCatalogado >> anioDeEdicion [
 ]
 
 { #category : 'accessing' }
-MaterialCatalogado >> anioDeEdicion: unAnio [
-"setter año de edición"
-anioDeEdicion := unAnio .
-]
-
-{ #category : 'accessing' }
 MaterialCatalogado >> autores [
 "getter autores copia"
 	|autorescopia|
@@ -74,12 +68,6 @@ MaterialCatalogado >> editorial [
 ^editorial 
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> editorial: unaEditorial [
-
-"setter editorial"
-editorial:=unaEditorial .
-]
 
 { #category : 'accessing' }
 MaterialCatalogado >> identificador [
@@ -99,12 +87,6 @@ MaterialCatalogado >> paginas [
 ^paginas 
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> paginas: cantidadPaginas [
-	"setter cantidad de paginas"
-paginas:= cantidadPaginas .
-]
-
 { #category : 'as yet unclassified' }
 MaterialCatalogado >> plazoVencimiento [
 	"getter días de vencimiento de material para devolver"
@@ -117,8 +99,3 @@ MaterialCatalogado >> titulo [
 ^titulo 
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> titulo: unTitulo [
-"setter titulo"
-titulo :=unTitulo.
-]
