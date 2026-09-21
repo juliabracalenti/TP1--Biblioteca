@@ -14,7 +14,8 @@ Class {
 		'nombreCompleto',
 		'esMoroso',
 		'puedeLlevar',
-		'motivoDeRechazo'
+		'motivoDeRechazo',
+		'codigosEnPoder'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
@@ -27,7 +28,22 @@ FichaDeLector class >> deLector: unLector conPrestamosVigentes: unaColeccionDePr
 	(unLector isKindOf: Lector)
 		ifFalse: [ self error: 'El argumento debe ser de tipo Lector' ].
 	instancia initializeFicha: unLector.
+	instancia initializeFichaconPrestamos: unaColeccionDePrestamos .
 	^instancia.
+]
+
+{ #category : 'accessing' }
+FichaDeLector >> cantidadEnPoder [
+	"comment stating purpose of instance-side method"
+	^codigosEnPoder size 
+]
+
+{ #category : 'accessing' }
+FichaDeLector >> codigosEnPoder [
+"getter de codigosEnPoder"
+^codigosEnPoder 
+
+	
 ]
 
 { #category : 'accessing' }
@@ -48,6 +64,12 @@ FichaDeLector >> initializeFicha: conLector [
 	esMoroso := conLector esMoroso.
 	puedeLlevar := conLector puedeLlevar.
 	motivoDeRechazo := conLector motivoDeRechazo.
+]
+
+{ #category : 'private - factory' }
+FichaDeLector >> initializeFichaconPrestamos: prestamosVigentes [
+	"comment stating purpose of instance-side method"
+	codigosEnPoder := prestamosVigentes collect: [ :unPrestamo | unPrestamo material identificador ].
 ]
 
 { #category : 'accessing' }
