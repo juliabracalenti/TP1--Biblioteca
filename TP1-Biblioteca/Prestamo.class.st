@@ -22,11 +22,22 @@ Class {
 	#package : 'TP1-Biblioteca'
 }
 
+{ #category : 'instance creation' }
+Prestamo class >> material: unMaterial lector: unLector instante: unInstante [
+	"Crea el préstamo abierto y le calcula el vencimiento. Retorna: instancia de Prestamo"
+	| nuevoPrestamo |
+	nuevoPrestamo := self new.
+	nuevoPrestamo material: unMaterial .
+	nuevoPrestamo lector: unLector .
+	nuevoPrestamo inicioYvencimiento: unInstante .
+	
+^nuevoPrestamo 
+]
+
 { #category : 'accessing' }
-Prestamo >> caca [
-	"comment stating purpose of instance-side method"
-	"scope: class-variables  &  instance-variables"
-^1
+Prestamo >> descripcion [
+	"Una linea legible del prestamo"
+	^ 'Se presto ' , material titulo , ' al lector ' , lector nombreCompleto , ' desde ' , inicio , ' hasta ', 'vencimiento'
 ]
 
 { #category : 'accessing' }
@@ -43,10 +54,57 @@ devolucion:= unaFecha .
 ]
 
 { #category : 'accessing' }
+Prestamo >> dias [
+	"Cuantos dias duro, o nil si todavia no volvio."
+	^
+	(self estaVigente)
+	ifTrue: [ nil ] ifFalse: [ (devolucion - inicio )days ]
+	
+]
+
+{ #category : 'accessing' }
+Prestamo >> diasTranscurridosHasta: unInstante [
+	"Dias entre el inicio del prestamo y un instante"
+	^(unInstante - inicio)days
+]
+
+{ #category : 'accessing' }
+Prestamo >> estaCerrado [
+	"Retorna 'true' si el prestamo esta cerrado. De lo contrario retorna 'false'."
+	^ devolucion isNotNil 
+]
+
+{ #category : 'accessing' }
+Prestamo >> estaVencidoA: unInstante [
+	"Verdadero si sigue abierto y ese instante es posterior a su vencimiento."
+	^ self estaVigente and: [unInstante > vencimiento ]
+]
+
+{ #category : 'accessing' }
+Prestamo >> estaVigente [
+	"Retorna 'true' si el prestamo sigue abierto (es decir, si su devolucion es nil). De lo contrario retorna 'false'."
+	^ devolucion isNil 
+]
+
+{ #category : 'accessing' }
+Prestamo >> excedioPlazo [
+	"Verdadero si ya volvió y volvió después del vencimiento."
+	^ self estaCerrado and:[devolucion > vencimiento]
+]
+
+{ #category : 'accessing' }
 Prestamo >> inicio [
 
 "getter inicio"
 ^inicio 
+]
+
+{ #category : 'accessing' }
+Prestamo >> inicioYvencimiento: unInstante [
+	"setter de inicio y vencimiento"
+	inicio := unInstante .
+	vencimiento := unInstante + material plazoVencimiento
+	
 ]
 
 { #category : 'initialization' }
@@ -86,6 +144,20 @@ Prestamo >> material [
 Prestamo >> material: unMaterial [
 "setter material"
 material:= unMaterial
+]
+
+{ #category : 'accessing' }
+Prestamo >> plazoEnDias [
+	"Los días que se le dieron, congelados al prestar. Retorna: Integer"
+	^(vencimiento - inicio )days
+]
+
+{ #category : 'accessing' }
+Prestamo >> registrarDevolucion: unInstante [
+	"Le anota la fecha de devolución y lo deja cerrado. Es su único cambio de estado. Si ya estaba cerrado informa por el Transcript y no lo cambia. Retorna el receptor."
+	(self estaVigente)
+	ifTrue: [ devolucion := unInstante ] ifFalse: [ Transcript show: 'El prestamo se encuentra cerrado.'; cr. ].
+	^self
 ]
 
 { #category : 'accessing' }
