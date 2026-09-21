@@ -58,6 +58,17 @@ autores ifNil: [ autorPrincipal:= nil. ] ifNotNil: [autorPrincipal:= autores at:
 ]
 
 { #category : 'accessing' }
+MaterialCatalogado >> esDeAutor: unnombre [
+"Bool que dice si esta un unnombre entre los autores"
+|estaAutor|
+autores 
+	ifNil: [estaAutor=false.] 
+	ifNotNil: [estaAutor:= autores anySatisfy [:autor | autor = unnombre ]
+^estaAutor 
+]
+
+
+{ #category : 'accessing' }
 MaterialCatalogado >> editorial [
 "getter editorial"
 ^editorial 
