@@ -12,3 +12,9 @@ Class {
 SystemDateAdapter class >> isAbstract [
 	^false.
 ]
+
+{ #category : 'accessing' }
+SystemDateAdapter >> now [
+"devuelve el instante actual"
+^ DateAndTime now
+]

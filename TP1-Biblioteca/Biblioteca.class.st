@@ -23,11 +23,21 @@ Class {
 }
 
 { #category : 'accessing' }
-Biblioteca class >> nombre: unNombre [
+Biblioteca class >> nombre: unNombre datePort: unReloj [
 "new biblioteca + nombre"
 |unaBiblioteca|
 unaBiblioteca := self new.
-unaBiblioteca nombrar: unNombre.
+unaBiblioteca nombre: unNombre; datePort: unReloj.
+
+^unaBiblioteca 
+]
+
+{ #category : 'accessing' }
+Biblioteca class >> nombre: unNombre reloj: unReloj [
+"new biblioteca + nombre"
+|unaBiblioteca|
+unaBiblioteca := self new.
+unaBiblioteca nombre: unNombre; reloj: unReloj.
 ^unaBiblioteca 
 ]
 
@@ -90,6 +100,13 @@ Biblioteca >> catalogar: unMaterial [
 Biblioteca >> catalogo [
 	"getter catalogo"
 ^catalogo
+]
+
+{ #category : 'private - initialization' }
+Biblioteca >> datePort: unReloj [
+" inicialiación de reloj "
+datePort := unReloj .
+^self
 ]
 
 { #category : 'updating' }
@@ -211,16 +228,16 @@ listaDelAutor := catalogo select:[:cadaMaterial | cadaMaterial autores = unAutor
 
 ]
 
-{ #category : 'setter' }
-Biblioteca >> nombrar: unNombre [
-"setter nombre"
-nombre:=unNombre.
-]
-
 { #category : 'getter' }
 Biblioteca >> nombre [
 "getter nombre"
 ^nombre
+]
+
+{ #category : 'private - initialization' }
+Biblioteca >> nombre: unNombre [
+"setter nombre"
+nombre:=unNombre.
 ]
 
 { #category : 'accessing' }
