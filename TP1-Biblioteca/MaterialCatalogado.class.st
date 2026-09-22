@@ -11,6 +11,7 @@ Class {
 		'editorial',
 		'anioDeEdicion',
 		'paginas'
+		'descripcion'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
@@ -28,15 +29,11 @@ MaterialCatalogado >> anioDeEdicion [
 ]
 
 { #category : 'accessing' }
-MaterialCatalogado >> anioDeEdicion: unAnio [
-"setter año de edición"
-anioDeEdicion := unAnio .
-]
-
-{ #category : 'accessing' }
 MaterialCatalogado >> autores [
-"getter autores"
-^autores 
+"getter autores copia"
+	|autorescopia|
+autorescopia:=autores.
+^autorescopia 
 ]
 
 { #category : 'accessing' }
@@ -46,6 +43,23 @@ MaterialCatalogado >> autores: unAutor [
 autores ifNil: [ autores:= OrderedCollection new. ].
 autores add: unAutor. 
 ]
+{ #category : 'accessing' }
+MaterialCatalogado >> autorPrincipal [
+"getter autorPrincipal"
+|autorPrincipal|
+autores ifNil: [ autorPrincipal:= nil. ] ifNotNil: [autorPrincipal:= autores at: 1.]
+^autorPrincipal 
+]
+
+{ #category : 'accessing' }
+MaterialCatalogado >> esDeAutor: unnombre [
+"Bool que dice si esta un unnombre entre los autores"
+|estaAutor|
+autores 
+	ifNil: [estaAutor=false.] 
+	ifNotNil: [estaAutor:= autores anySatisfy [:autor | autor = unnombre ]].
+^estaAutor 
+]
 
 { #category : 'accessing' }
 MaterialCatalogado >> editorial [
@@ -53,12 +67,6 @@ MaterialCatalogado >> editorial [
 ^editorial 
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> editorial: unaEditorial [
-
-"setter editorial"
-editorial:=unaEditorial .
-]
 
 { #category : 'accessing' }
 MaterialCatalogado >> identificador [
@@ -79,12 +87,6 @@ MaterialCatalogado >> paginas [
 ]
 
 { #category : 'accessing' }
-MaterialCatalogado >> paginas: cantidadPaginas [
-	"setter cantidad de paginas"
-paginas:= cantidadPaginas .
-]
-
-{ #category : 'accessing' }
 MaterialCatalogado >> plazoVencimiento [
 	"getter días de vencimiento de material para devolver"
 ^self subclassResponsibility 
@@ -95,9 +97,14 @@ MaterialCatalogado >> titulo [
 "getter titulo"
 ^titulo 
 ]
+{ #category : 'accessing' }
+MaterialCatalogado >> descripcion: unString [
+ "setter descripcion"
+descripcion :=unString.
+]
 
 { #category : 'accessing' }
-MaterialCatalogado >> titulo: unTitulo [
-"setter titulo"
-titulo :=unTitulo.
+MaterialCatalogado >> descripcion [
+ "getter descripcion"
+^descripcion
 ]
