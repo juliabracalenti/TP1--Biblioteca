@@ -44,6 +44,24 @@ Libro >> tipoDeIdentificador [
 ]
 
 { #category : 'accessing' }
+Libro >>  inicializarTodosLosAtributosisbn: unIsbn
+     titulo: unTitulo
+     autores: unaColeccionDeAutores
+     editorial: unaEditorial
+     anio: unAnio
+     paginas: numPaginas[
+
+    isbn:= unIsbn.
+    titulo:= unTitulo.
+    autores:= unaColeccionDeAutores.
+    editorial:= unaEditorial.
+    anio:= unAnio.
+    paginas:= numPaginas.
+
+
+
+]
+{ #category : 'accessing' }
 Libro >> isbn [
  "getter isbn"
 ^isbn
