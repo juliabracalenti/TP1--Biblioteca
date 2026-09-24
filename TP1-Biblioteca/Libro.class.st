@@ -66,3 +66,26 @@ Libro >> isbn [
  "getter isbn"
 ^isbn
 ]
+
+{ #category : 'instance creation' }
+"devuelve instancia de libro inicializando todas estas variables"
+Libro class >> 
+isbn: unIsbn
+titulo: unTitulo
+autores:  unaColeccionDeAutores
+editorial: unaEditorial
+anio: unAnio
+paginas: numPaginas
+
+[
+    | libro |
+     libro := Libro new.
+
+    libro  inicializarTodosLosAtributosisbn: unIsbn
+    titulo: unTitulo
+    autores: unaColeccionDeAutores
+    editorial: unaEditorial
+    anio: unAnio
+    paginas: numPaginas.
+    ^libro
+]
