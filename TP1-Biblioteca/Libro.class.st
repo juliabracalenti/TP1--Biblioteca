@@ -8,7 +8,8 @@ Class {
 	#name : 'Libro',
 	#superclass : 'MaterialCatalogado',
 	#instVars : [
-		'plazoPrestamo'
+		'plazoPrestamo',
+                'isbn'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
@@ -17,10 +18,4 @@ Class {
 { #category : 'testing' }
 Libro class >> isAbstract [
 	^false.
-]
-
-{ #category : 'as yet unclassified' }
-Libro >> plazoVencimiento [ 
-	"getter días de vencimiento"
-^plazoPrestamo 
 ]
