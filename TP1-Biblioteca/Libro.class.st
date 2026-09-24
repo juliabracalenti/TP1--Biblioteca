@@ -19,3 +19,32 @@ Class {
 Libro class >> isAbstract [
 	^false.
 ]
+{ #category : 'accessing' }
+Libro >> codigo [
+"devuelve el ISBN o el ISSN+num según corresponda"
+^isbn
+]
+
+{ #category : 'as yet unclassified' }
+Libro >> plazoEnDias [
+	"getter días de vencimiento de material para devolver"
+^15
+]
+
+{ #category : 'accessing' }
+Libro >> tipo [
+ "getter tipo"
+^'libro'
+]
+
+{ #category : 'accessing' }
+Libro >> tipoDeIdentificador [
+ "getter tipoDeIdentificador"
+^'ISBN'
+]
+
+{ #category : 'accessing' }
+Libro >> isbn [
+ "getter isbn"
+^isbn
+]
