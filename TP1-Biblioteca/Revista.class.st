@@ -66,3 +66,52 @@ Revista >> numero [
  "getter numero"
 ^numero
 ]
+
+{ #category : 'instance creation' }
+Revista class >> 
+"devuelve instancia de revista inicializando todas estas variables"
+issn: unIssn titulo:
+unTitulo autores:
+unaColeccionDeAutores
+editorial: unaEditorial
+anio: unAnio paginas:
+numPaginas numero:
+unNumero mes: unMes[
+|revista|
+revista:=Revista new.
+
+revista 
+
+      inicializarTodosLosAtributosissn: unIssn 
+      titulo: unTitulo 
+     autores: unaColeccionDeAutores
+     editorial: unaEditorial
+     anio: unAnio 
+     paginas: numPaginas 
+     numero: unNumero 
+     mesDeEdicion: unMes.
+
+^revista
+
+]
+
+{ #category : 'accessing' }
+Revista >>
+
+ inicializarTodosLosAtributosissn: unIssn 
+      titulo: unTitulo 
+     autores: unaColeccionDeAutores
+     editorial: unaEditorial
+     anio: unAnio 
+     paginas: numPaginas 
+     numero: unNumero 
+     mesDeEdicion: unMes[
+issn:= unIssn .
+ titulo:= unTitulo .
+ autores:= unaColeccionDeAutores.
+editorial:= unaEditorial.
+ anio:= unAnio .
+ paginas:= numPaginas .
+ numero:= unNumero .
+ mesDeEdicion:= unMes.]
+
