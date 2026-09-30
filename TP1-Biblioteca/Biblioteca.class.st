@@ -88,6 +88,16 @@ Biblioteca >> catalogo [
 ^catalogo
 ]
 
+{ #category : 'getter' }
+Biblioteca >> datePort [
+^datePort 
+]
+
+{ #category : 'setter' }
+Biblioteca >> datePort: unDatePort [
+datePort := unDatePort .
+]
+
 { #category : 'updating' }
 Biblioteca >> devolver: unNumeroIdentificador [
 	"devuelve una instancia de préstamo correspondiente al numero de id del material pero cerrada"
