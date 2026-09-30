@@ -23,21 +23,11 @@ Class {
 }
 
 { #category : 'accessing' }
-Biblioteca class >> nombre: unNombre datePort: unReloj [
+Biblioteca class >> nombre: unNombre [
 "new biblioteca + nombre"
 |unaBiblioteca|
 unaBiblioteca := self new.
-unaBiblioteca nombre: unNombre; datePort: unReloj.
-
-^unaBiblioteca 
-]
-
-{ #category : 'accessing' }
-Biblioteca class >> nombre: unNombre reloj: unReloj [
-"new biblioteca + nombre"
-|unaBiblioteca|
-unaBiblioteca := self new.
-unaBiblioteca nombre: unNombre; reloj: unReloj.
+unaBiblioteca nombrar: unNombre.
 ^unaBiblioteca 
 ]
 
@@ -48,8 +38,7 @@ Biblioteca >> agregarLector: unLector [
 |lectorRetorno|
 
 lectores ifNil: [ lectores:= OrderedCollection new. lectores add: unLector. lectorRetorno:=unLector ]
-
-			ifNotNil: [ ( lectores contains: unLector )
+			ifNotNil: [ (lectores anySatisfy: [:cadaLector | cadaLector numero == unLector numero ])
 												ifTrue: [ Transcript open; show:'este lector ya está ingresado en el sistema de la biblioteca: '; show: nombre; cr.]
 												ifFalse:[ lectores add: unLector. lectorRetorno :=unLector]
 															].
@@ -60,12 +49,9 @@ lectores ifNil: [ lectores:= OrderedCollection new. lectores add: unLector. lect
 { #category : 'accessing' }
 Biblioteca >> buscarLectoresPorApellido: unTexto [
 "busca y colecciona todas las fichas cuyos apellidos contengan unTexto (no necesariamente son iguales unTexto y el apellido, sino que apellido al menos contiene unTexto)"
+| fichasCoincidentes |
 
-| fichasCoincidentes lectorescoincidentes|
-
-lectorescoincidentes := lectores select: [ :cadaLector | cadaLector apellidoContiene:unTexto ].
-
-fichasCoincidentes := fichas select: [ :cadaFicha | lectorescoincidentes anySatisfy: [ :cadaLectorCoincidente | cadaLectorCoincidente numero = cadaFicha numero ] ].
+fichasCoincidentes := fichas select: [ :cadaFicha | (unTexto asLowercase) includesSubstring: (cadaFicha apellido) asLowercase ].
 
 ^fichasCoincidentes 
 ]
@@ -88,8 +74,8 @@ Biblioteca >> catalogar: unMaterial [
 "retorno devuelve nil si el material ya existía y unMaterial si se acaba de agregar"
 |retorno|
 
-		catalogo ifNil: [catalogo:= OrderedCollection new. catalogo add: unMaterial. retorno :=unMaterial]
-					ifNotNil: [
+		catalogo ifNil: [catalogo:= OrderedCollection new. catalogo add: unMaterial. retorno :=unMaterial].
+		catalogo	ifNotNil: [
 						(catalogo includes: unMaterial) ifFalse: [catalogo add: unMaterial.retorno :=unMaterial]
 																  ifTrue: [Transcript open; show: 'el material ingresado ya estaba previamente en el catálogo.'] ].
 
@@ -102,13 +88,6 @@ Biblioteca >> catalogo [
 ^catalogo
 ]
 
-{ #category : 'private - initialization' }
-Biblioteca >> datePort: unReloj [
-" inicialiación de reloj "
-datePort := unReloj .
-^self
-]
-
 { #category : 'updating' }
 Biblioteca >> devolver: unNumeroIdentificador [
 	"devuelve una instancia de préstamo correspondiente al numero de id del material pero cerrada"
@@ -117,10 +96,10 @@ Biblioteca >> devolver: unNumeroIdentificador [
 	
 	"busca un préstamo relacionado al material identificado que no esté cerrado."
 	prestamoAcerrar:= prestamos detect:[:cadaPrestamo | 
-		cadaPrestamo identificador = unNumeroIdentificador and: cadaPrestamo estaVigente ]. 
+		cadaPrestamo identificador==unNumeroIdentificador and: cadaPrestamo devolucion isNil].
 	
-	fechaActual := DatePort now. 
-	prestamoAcerrar registrarDevolucion: fechaActual.
+	fechaActual := Time now. "capaz haya que modificar esto con la librería que nos pidieron"
+	prestamoAcerrar devolucion: fechaActual.
 	
 	^prestamoAcerrar 
 	
@@ -228,16 +207,16 @@ listaDelAutor := catalogo select:[:cadaMaterial | cadaMaterial autores = unAutor
 
 ]
 
+{ #category : 'setter' }
+Biblioteca >> nombrar: unNombre [
+"setter nombre"
+nombre:=unNombre.
+]
+
 { #category : 'getter' }
 Biblioteca >> nombre [
 "getter nombre"
 ^nombre
-]
-
-{ #category : 'private - initialization' }
-Biblioteca >> nombre: unNombre [
-"setter nombre"
-nombre:=unNombre.
 ]
 
 { #category : 'accessing' }
@@ -282,22 +261,12 @@ Biblioteca >> prestamosDelMaterial: unCodigo [
 ]
 
 { #category : 'accessing' }
-Biblioteca >> prestamosVencidos [
-"devuelve una coleccion de todos los prestamos vigentes, es decir que todavía no devolvieron los materiales correspondientes, que están vencidos"
-|listaPrestamosVencidos|
-
-listaPrestamosVencidos := prestamos select: [ :cadaPrestamo | cadaPrestamo estaVencidoA: (DatePort now)].
-
-^listaPrestamosVencidos 
-]
-
-{ #category : 'accessing' }
 Biblioteca >> prestamosVigentes [
 	" devuelve una lista de todos los préstamos vigentes (de materiales no devueltos) "
 
 	| listaPrestamosVigentes |
 
-	listaPrestamosVigentes := prestamos select: [ :cadaPrestamo | cadaPrestamo estaVigente ].
+	listaPrestamosVigentes := prestamos select: [ :cadaPrestamo | cadaPrestamo devolucion isNil ].
 	
 	^listaPrestamosVigentes 
 ]
@@ -309,7 +278,7 @@ Biblioteca >> prestamosVigentesDe: unNumeroSocio [
 
 	| prestamosAsociadosASocioVigentes |
 	
-	prestamosAsociadosASocioVigentes := (self prestamosVigentes ) select:[ :cadaPrestamoVigente | (self prestamosDe: unNumeroSocio ) anySatisfy: [ :cadaPrestamoDelSocio | cadaPrestamoVigente = cadaPrestamoDelSocio ] ] .
+		prestamosAsociadosASocioVigentes := (self prestamosVigentes ) select:[ :cadaPrestamoVigente | (self prestamosDe: unNumeroSocio ) includes: cadaPrestamoVigente ] .
 
 ^prestamosAsociadosASocioVigentes 
 ]
@@ -323,11 +292,11 @@ Biblioteca >> prestar: unCodigo a: unNumero [
 	lectorPrestamo := lectores lectorNumero: unNumero .
 	materialPrestamo := catalogo materialNumero: unCodigo.
 	
-	validezPrestamo := lectorPrestamo isNotNil or: (materialPrestamo isNotNil or: ((lectorPrestamo puedeLlevar)negated or: (prestamos estaPrestado: unCodigo))). 
+	validezPrestamo := lectorPrestamo isNotNil or: (materialPrestamo isNotNil or: (lectorPrestamo moroso or: (prestamos estaPrestado: unCodigo))). 
 	 
 	validezPrestamo 
-	  ifTrue: [ prestamoArealizar:= Prestamo material: materialPrestamo lector: lectorPrestamo instante: (DatePort now).
-			 prestamos add: prestamoArealizar. ]
+	  ifTrue: [ prestamoArealizar:= Prestamo material: materialPrestamo lector: lectorPrestamo instante: (Time now).
+			 prestamos add: prestamoArealizar ] "va a haber que cambiar esto con el dateport" 
 		
     	ifFalse:[Transcript show: 'No se pudo crear el préstamo.'; cr.].	
 							

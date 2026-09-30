@@ -27,11 +27,14 @@ FichaDeLector class >> deLector: unLector conPrestamosVigentes: unaColeccionDePr
 	|instancia|
 	instancia := self new.
 	(unLector isKindOf: Lector)
-		ifFalse: [ self error: 'El argumento #unLector debe ser de tipo Lector' ].
-	(unaColeccionDePrestamos isKindOf: OrderedCollection)
-		ifFalse: [ self error: 'El argumento #unaCollecionDePrestamos debe ser de tipo OrderedCollection' ].
+		ifFalse: [ self error: 'El argumento debe ser de tipo Lector' ].
 	instancia initializeFicha: unLector yPrestamos: unaColeccionDePrestamos.
 	^instancia.
+]
+
+{ #category : 'accessing' }
+FichaDeLector >> apellido [
+	^apellido.
 ]
 
 { #category : 'accessing' }
@@ -66,6 +69,7 @@ FichaDeLector >> initializeFicha: conLector yPrestamos: prestamosVigentes [
 	numero := conLector numero.
 	cuit := conLector cuit.
 	nombreCompleto := conLector nombreCompleto.
+	apellido := conLector apellido.
 	esMoroso := conLector esMoroso.
 	puedeLlevar := conLector puedeLlevar.
 	motivoDeRechazo := conLector motivoDeRechazo.
