@@ -5,24 +5,24 @@ Class {
 	#name : 'MaterialCatalogado',
 	#superclass : 'Object',
 	#instVars : [
-		'identificador',
 		'titulo',
 		'autores',
 		'editorial',
 		'anioDeEdicion',
-		'paginas'
+		'paginas',
+		'descripcion'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
 }
 
 { #category : 'testing' }
-MaterialCatalogado class >> isAbstract [
+MaterialCatalogado class >> isAbstract [ 
 	^true.
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> anioDeEdicion [
+{ #category : 'getter' }
+MaterialCatalogado >> anioDeEdicion [ 
 "getter año de edición"
 ^anioDeEdicion 
 ]
@@ -33,24 +33,59 @@ MaterialCatalogado >> anioDeEdicion: unAnio [
 anioDeEdicion := unAnio .
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> autores [
-"getter autores"
-^autores 
+{ #category : 'getter' }
+MaterialCatalogado >> autorPrincipal [ 
+"getter autorPrincipal"
+
+^ autores ifNil: [  nil. ] ifNotNil: [autores at: 1 .]
+
+
+]
+
+{ #category : 'getter' }
+MaterialCatalogado >> autores [ 
+"getter autores copia"
+	|autorescopia|
+autorescopia:=autores.
+^autorescopia 
+
 ]
 
 { #category : 'accessing' }
-MaterialCatalogado >> autores: unAutor [
+MaterialCatalogado >> autores: unAutor [ 
 "setter autores"
 
 autores ifNil: [ autores:= OrderedCollection new. ].
 autores add: unAutor. 
+
+]
+
+{ #category : 'abstract' }
+MaterialCatalogado >> codigo [ 
+"devuelve el ISBN o el ISSN+num según corresponda"
+^self subclassResponsibility
+
+]
+
+{ #category : 'getter' }
+MaterialCatalogado >> descripcion [ 
+ "getter descripcion"
+^descripcion
+
 ]
 
 { #category : 'accessing' }
-MaterialCatalogado >> editorial [
+MaterialCatalogado >> descripcion: unString [ 
+ "setter descripcion"
+descripcion :=unString.
+
+]
+
+{ #category : 'getter' }
+MaterialCatalogado >> editorial [ 
 "getter editorial"
 ^editorial 
+
 ]
 
 { #category : 'accessing' }
@@ -61,21 +96,22 @@ editorial:=unaEditorial .
 ]
 
 { #category : 'accessing' }
-MaterialCatalogado >> identificador [
-"devuelve el ISBN o el ISSN+num según corresponda"
-^identificador 
+MaterialCatalogado >> esDeAutor: unnombre [ 
+"Bool que dice si esta un unnombre entre los autores"
+|estaAutor|
+autores 
+	ifNil: [estaAutor:=false.] 
+	ifNotNil: [estaAutor:= autores anySatisfy: [:autor | autor = unnombre ]].
+^estaAutor 
+
+
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> identificador: unIdentificador [
- "setter identificador"
-identificador :=unIdentificador .
-]
-
-{ #category : 'accessing' }
-MaterialCatalogado >> paginas [
+{ #category : 'getter' }
+MaterialCatalogado >> paginas [ 
 "getter paginas"
 ^paginas 
+
 ]
 
 { #category : 'accessing' }
@@ -84,16 +120,38 @@ MaterialCatalogado >> paginas: cantidadPaginas [
 paginas:= cantidadPaginas .
 ]
 
+{ #category : 'abstract' }
+MaterialCatalogado >> plazoEnDias [ 
+	"getter días de vencimiento de material para devolver"
+^self subclassResponsibility 
+]
+
 { #category : 'accessing' }
 MaterialCatalogado >> plazoVencimiento [
 	"getter días de vencimiento de material para devolver"
 ^self subclassResponsibility 
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> titulo [
+{ #category : 'abstract' }
+MaterialCatalogado >> tipo [ 
+ "getter tipo"
+^self subclassResponsibility
+
+]
+
+{ #category : 'abstract' }
+MaterialCatalogado >> tipoDeIdentificador [ 
+ "getter tipoDeIdentificador"
+^self subclassResponsibility
+
+]
+
+{ #category : 'getter' }
+MaterialCatalogado >> titulo [ 
 "getter titulo"
 ^titulo 
+
+
 ]
 
 { #category : 'accessing' }

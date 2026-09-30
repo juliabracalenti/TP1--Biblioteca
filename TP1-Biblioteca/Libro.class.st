@@ -8,19 +8,91 @@ Class {
 	#name : 'Libro',
 	#superclass : 'MaterialCatalogado',
 	#instVars : [
-		'plazoPrestamo'
+		'plazoPrestamo',
+		'isbn'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
 }
 
 { #category : 'testing' }
-Libro class >> isAbstract [
+Libro class >> isAbstract [ 
 	^false.
+]
+
+{ #category : 'instance creation' }
+Libro class >> isbn: unIsbn
+titulo: unTitulo
+autores:  unaColeccionDeAutores
+editorial: unaEditorial
+anio: unAnio
+paginas: numPaginas [
+
+ | libro |
+     libro := self new.
+
+    libro  inicializarTodosLosAtributosisbn: unIsbn
+    titulo: unTitulo
+    autores: unaColeccionDeAutores
+    editorial: unaEditorial
+    anio: unAnio
+    paginas: numPaginas.
+    ^libro
+
+]
+
+{ #category : 'accessing' }
+Libro >> codigo [ 
+"devuelve el ISBN o el ISSN+num según corresponda"
+^isbn
+
+]
+
+{ #category : 'initialization' }
+Libro >> inicializarTodosLosAtributosisbn: unIsbn
+     titulo: unTitulo
+     autores: unaColeccionDeAutores
+     editorial: unaEditorial
+     anio: unAnio
+     paginas: numPaginas [
+
+    isbn:= unIsbn.
+    titulo:= unTitulo.
+    autores:= unaColeccionDeAutores asOrderedCollection.
+    editorial:= unaEditorial.
+    anioDeEdicion := unAnio.
+    paginas:= numPaginas.
+]
+
+{ #category : 'accessing' }
+Libro >> isbn [ 
+ "getter isbn"
+^isbn
+
+]
+
+{ #category : 'accessing' }
+Libro >> plazoEnDias [ 
+	"getter días de vencimiento de material para devolver"
+^15
 ]
 
 { #category : 'as yet unclassified' }
 Libro >> plazoVencimiento [ 
 	"getter días de vencimiento"
 ^plazoPrestamo 
+]
+
+{ #category : 'accessing' }
+Libro >> tipo [ 
+ "getter tipo"
+^'libro'
+
+]
+
+{ #category : 'accessing' }
+Libro >> tipoDeIdentificador [ 
+ "getter tipoDeIdentificador"
+^'ISBN'
+
 ]
