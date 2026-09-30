@@ -12,3 +12,9 @@ Class {
 SystemDateAdapter class >> isAbstract [
 	^false.
 ]
+
+{ #category : 'accessing' }
+SystemDateAdapter >> now [
+	"devuelve la fecha actual o una fecha forzada en caso de pruebas"
+	^DateAndTime now.
+]
