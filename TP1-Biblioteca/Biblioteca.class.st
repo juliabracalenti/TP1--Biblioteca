@@ -49,9 +49,10 @@ lectores ifNil: [ lectores:= OrderedCollection new. lectores add: unLector. lect
 { #category : 'accessing' }
 Biblioteca >> buscarLectoresPorApellido: unTexto [
 "busca y colecciona todas las fichas cuyos apellidos contengan unTexto (no necesariamente son iguales unTexto y el apellido, sino que apellido al menos contiene unTexto)"
-| fichasCoincidentes |
+| fichasCoincidentes lectoresCoincidentes |
 
-fichasCoincidentes := fichas select: [ :cadaFicha | (unTexto asLowercase) includesSubstring: (cadaFicha apellido) asLowercase ].
+lectoresCoincidentes := lectores select: [ :cadaLector | cadaLector apellidoContiene:unTexto ].
+fichasCoincidentes := fichas select: [ :cadaFicha | lectores anySatisfy: [ :cadaLector | cadaLector numero = cadaFicha numero]].
 
 ^fichasCoincidentes 
 ]
@@ -106,7 +107,7 @@ Biblioteca >> devolver: unNumeroIdentificador [
 	
 	"busca un préstamo relacionado al material identificado que no esté cerrado."
 	prestamoAcerrar:= prestamos detect:[:cadaPrestamo | 
-		cadaPrestamo identificador==unNumeroIdentificador and: cadaPrestamo devolucion isNil].
+		cadaPrestamo identificador = unNumeroIdentificador and: cadaPrestamo estaVigente ].
 	
 	fechaActual := Time now. "capaz haya que modificar esto con la librería que nos pidieron"
 	prestamoAcerrar devolucion: fechaActual.
@@ -276,7 +277,7 @@ Biblioteca >> prestamosVigentes [
 
 	| listaPrestamosVigentes |
 
-	listaPrestamosVigentes := prestamos select: [ :cadaPrestamo | cadaPrestamo devolucion isNil ].
+	listaPrestamosVigentes := prestamos select: [ :cadaPrestamo | (cadaPrestamo estaVigente) ].
 	
 	^listaPrestamosVigentes 
 ]
@@ -302,11 +303,11 @@ Biblioteca >> prestar: unCodigo a: unNumero [
 	lectorPrestamo := lectores lectorNumero: unNumero .
 	materialPrestamo := catalogo materialNumero: unCodigo.
 	
-	validezPrestamo := lectorPrestamo isNotNil or: (materialPrestamo isNotNil or: (lectorPrestamo moroso or: (prestamos estaPrestado: unCodigo))). 
+	validezPrestamo := lectorPrestamo isNotNil and: (materialPrestamo isNotNil and: ((lectorPrestamo moroso)not or: (prestamos estaPrestado: unCodigo)not )). 
 	 
 	validezPrestamo 
-	  ifTrue: [ prestamoArealizar:= Prestamo material: materialPrestamo lector: lectorPrestamo instante: (Time now).
-			 prestamos add: prestamoArealizar ] "va a haber que cambiar esto con el dateport" 
+	  ifTrue: [ prestamoArealizar:= Prestamo material: materialPrestamo lector: lectorPrestamo instante: (datePort now).
+			 prestamos add: prestamoArealizar ] 
 		
     	ifFalse:[Transcript show: 'No se pudo crear el préstamo.'; cr.].	
 							

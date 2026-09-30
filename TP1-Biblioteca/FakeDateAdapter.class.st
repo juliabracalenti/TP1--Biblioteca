@@ -11,7 +11,7 @@ Class {
 	#package : 'TP1-Biblioteca'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 FakeDateAdapter class >> en: unDateAndTime [
 	"Crea un reloj detenido ese instante"
 	| fakeDate |
@@ -21,7 +21,7 @@ FakeDateAdapter class >> en: unDateAndTime [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'creation' }
 FakeDateAdapter class >> enDia: unDia enMes: unMes enAnio: unAnio [
 	"devuelve un dateAndTime a las 00:00 del día elegido"
 	|fakeDate|
@@ -35,7 +35,7 @@ FakeDateAdapter class >> isAbstract [
 	^false.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 FakeDateAdapter >> avanzarDias: unaCantidadDeDias [ 
 	"avanza el tiempo la cantidad de días solicitado"
 	instante forzarFecha: instante + (unaCantidadDeDias ) days.
@@ -43,14 +43,14 @@ FakeDateAdapter >> avanzarDias: unaCantidadDeDias [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 FakeDateAdapter >> avanzarHoras: unaCantidadDeHoras [
 	"avanza el tiempo la cantidad de horas solicitadas"
 	instante forzarFecha: instante + (unaCantidadDeHoras ) hours .
 	^self.
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 FakeDateAdapter >> forzarDia: unDia mes: unMes anio: unAnio [
 	"planta el reloj en el dia elegido a las 00:00"
 	|fakeDate|
@@ -60,7 +60,7 @@ FakeDateAdapter >> forzarDia: unDia mes: unMes anio: unAnio [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 FakeDateAdapter >> forzarDia: unDia mes: unMes anio: unAnio hora: unaHora minuto: unMinuto [
 	"planta el reloj en el dia elegido a la hora deseada"
 	|fakeDate|
@@ -71,7 +71,7 @@ FakeDateAdapter >> forzarDia: unDia mes: unMes anio: unAnio hora: unaHora minuto
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'updating' }
 FakeDateAdapter >> forzarFecha: unDateAndTime [
 	"Planta el reloj en ese instante exacto. Es el mensaje para poner el sistema en la fecha que haga falta"
 	instante:= unDateAndTime.
@@ -79,7 +79,7 @@ FakeDateAdapter >> forzarFecha: unDateAndTime [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'setter' }
 FakeDateAdapter >> instante: unReloj [
 	"setter instante"
 	instante := unReloj.
@@ -88,7 +88,7 @@ FakeDateAdapter >> instante: unReloj [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'getter' }
 FakeDateAdapter >> now [
 	"devuelve fecha y hora actual"
 	^ DateAndTime now
