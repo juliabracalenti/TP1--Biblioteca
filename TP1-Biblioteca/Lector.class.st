@@ -62,8 +62,7 @@ Lector >> cuit [
 { #category : 'accessing' }
 Lector >> cuit: unCuit [
 	"setter cuit"
-	unCuit isInteger
-		ifFalse: [ self error: 'El cuit debe ser de tipo Integer' ].
+	
 	cuit := unCuit.
 ]
 

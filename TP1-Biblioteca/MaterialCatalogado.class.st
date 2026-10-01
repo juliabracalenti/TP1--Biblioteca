@@ -132,6 +132,11 @@ MaterialCatalogado >> plazoVencimiento [
 ^self subclassResponsibility 
 ]
 
+{ #category : 'as yet unclassified' }
+MaterialCatalogado >> plazoVencimiento: unaCantidadDeDias [
+^self subclassResponsibility 
+]
+
 { #category : 'abstract' }
 MaterialCatalogado >> tipo [ 
  "getter tipo"

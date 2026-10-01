@@ -37,7 +37,7 @@ Prestamo class >> material: unMaterial lector: unLector instante: unInstante [
 { #category : 'accessing' }
 Prestamo >> descripcion [
 	"Una linea legible del prestamo"
-	^ 'Se presto ' , material titulo , ' al lector ' , lector nombreCompleto , ' desde ' , inicio , ' hasta ', 'vencimiento'
+	^ 'Se prestó ' , material titulo , ' al lector ' , lector nombreCompleto , ' desde ' , inicio , ' hasta ', vencimiento
 ]
 
 { #category : 'getter' }
@@ -55,17 +55,17 @@ devolucion:= unaFecha .
 
 { #category : 'accessing' }
 Prestamo >> dias [
-	"Cuantos dias duro, o nil si todavia no volvio."
+	"Cuantos dias duró, o nil si todavia no volvió."
 	^
 	(self estaVigente)
-	ifTrue: [ nil ] ifFalse: [ (devolucion - inicio )days ]
+	ifTrue: [ nil ] ifFalse: [ (devolucion - inicio ) ]
 	
 ]
 
 { #category : 'support' }
 Prestamo >> diasTranscurridosHasta: unInstante [
 	"Dias entre el inicio del prestamo y un instante"
-	^(unInstante - inicio)days
+	^(unInstante - inicio)
 ]
 
 { #category : 'accessing' }
@@ -103,7 +103,7 @@ Prestamo >> inicio [
 Prestamo >> inicioYvencimiento: unInstante [
 	"setter de inicio y vencimiento"
 	inicio := unInstante .
-	vencimiento := unInstante + material plazoVencimiento
+	vencimiento := unInstante + (Duration days:(material plazoVencimiento))
 	
 ]
 
@@ -134,7 +134,7 @@ material:= unMaterial
 { #category : 'accessing' }
 Prestamo >> plazoEnDias [
 	"Los días que se le dieron, congelados al prestar. Retorna: Integer"
-	^(vencimiento - inicio )days
+	^(vencimiento - inicio )
 ]
 
 { #category : 'updating' }

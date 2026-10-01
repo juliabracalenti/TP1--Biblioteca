@@ -22,12 +22,13 @@ FakeDateAdapter class >> en: unDateAndTime [
 ]
 
 { #category : 'creation' }
-FakeDateAdapter class >> enDia: unDia enMes: unMes enAnio: unAnio [
+FakeDateAdapter class >> enDia: unDia mes: unMes anio: unAnio [
 	"devuelve un dateAndTime a las 00:00 del día elegido"
-	|fakeDate|
-	fakeDate := DateAndTime new.
-	fakeDate year: unAnio month: unMes day:unDia hour: 0 minute:0  second:0.
-	^ fakeDate
+	| fakeDate fakePort |
+	fakePort:= self new.
+	 fakeDate:= DateAndTime year: unAnio month: unMes day:unDia hour: 0 minute:0  second:0.
+	fakePort forzarFecha: fakeDate .
+	^fakePort
 ]
 
 { #category : 'testing' }
@@ -38,7 +39,7 @@ FakeDateAdapter class >> isAbstract [
 { #category : 'updating' }
 FakeDateAdapter >> avanzarDias: unaCantidadDeDias [ 
 	"avanza el tiempo la cantidad de días solicitado"
-	instante forzarFecha: instante + (unaCantidadDeDias ) days.
+	self forzarFecha: instante + (Duration days: unaCantidadDeDias ).
 	^self
 
 ]
@@ -46,7 +47,7 @@ FakeDateAdapter >> avanzarDias: unaCantidadDeDias [
 { #category : 'updating' }
 FakeDateAdapter >> avanzarHoras: unaCantidadDeHoras [
 	"avanza el tiempo la cantidad de horas solicitadas"
-	instante forzarFecha: instante + (unaCantidadDeHoras ) hours .
+	self forzarFecha: instante + (Duration hours: unaCantidadDeHoras ).
 	^self.
 ]
 
@@ -54,9 +55,8 @@ FakeDateAdapter >> avanzarHoras: unaCantidadDeHoras [
 FakeDateAdapter >> forzarDia: unDia mes: unMes anio: unAnio [
 	"planta el reloj en el dia elegido a las 00:00"
 	|fakeDate|
-	fakeDate := DateAndTime new.
-	fakeDate year: unAnio month: unMes day:unDia hour: 0 minute:0  second:0.
-	^ fakeDate
+	fakeDate := DateAndTime year: unAnio month: unMes day:unDia hour: 0 minute:0  second:0.
+	instante := fakeDate .
 
 ]
 
@@ -66,7 +66,8 @@ FakeDateAdapter >> forzarDia: unDia mes: unMes anio: unAnio hora: unaHora minuto
 	|fakeDate|
 	fakeDate := DateAndTime new.
 	fakeDate forzarDia: unDia mes: unMes  anio: unAnio.
-	fakeDate hour: unaHora minute: unMinuto  second: 0.
+	fakeDate hour: unaHora minute: unMinuto  second: (Duration seconds: 0).
+	instante := fakeDate .
 	^self
 
 ]
@@ -91,5 +92,5 @@ FakeDateAdapter >> instante: unReloj [
 { #category : 'getter' }
 FakeDateAdapter >> now [
 	"devuelve fecha y hora actual"
-	^ DateAndTime now
+	^ instante 
 ]

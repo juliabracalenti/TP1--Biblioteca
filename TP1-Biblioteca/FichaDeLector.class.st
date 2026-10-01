@@ -26,8 +26,6 @@ Class {
 FichaDeLector class >> deLector: unLector conPrestamosVigentes: unaColeccionDePrestamos [
 	|instancia|
 	instancia := self new.
-	(unLector isKindOf: Lector)
-		ifFalse: [ self error: 'El argumento debe ser de tipo Lector' ].
 	instancia initializeFicha: unLector yPrestamos: unaColeccionDePrestamos.
 	^instancia.
 ]

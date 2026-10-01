@@ -54,7 +54,7 @@ revista
 { #category : 'accessing' }
 Revista >> codigo [ 
 "devuelve el ISBN o el ISSN+num según corresponda"
-^issn, numero asString
+^issn,'-', numero asString
 
 ]
 
@@ -75,6 +75,7 @@ editorial:= unaEditorial.
  paginas:= numPaginas .
  numero:= unNumero .
  mesDeEdicion:= unMes.
+self plazoVencimiento: 7.
 ]
 
 { #category : 'accessing' }
@@ -98,17 +99,20 @@ Revista >> numero [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : 'abstract' }
 Revista >> plazoEnDias [ 
-	"getter días de vencimiento de material para devolver"
-^7
-
+^plazoPrestamo 
 ]
 
 { #category : 'as yet unclassified' }
 Revista >> plazoVencimiento [ 
 	"getter días de vencimiento"
 ^plazoPrestamo 
+]
+
+{ #category : 'as yet unclassified' }
+Revista >> plazoVencimiento: unaCantidadDeDias [
+plazoPrestamo := unaCantidadDeDias .
 ]
 
 { #category : 'accessing' }

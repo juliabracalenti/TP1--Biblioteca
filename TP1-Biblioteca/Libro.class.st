@@ -36,7 +36,8 @@ paginas: numPaginas [
     autores: unaColeccionDeAutores
     editorial: unaEditorial
     anio: unAnio
-    paginas: numPaginas.
+    paginas: numPaginas. 
+
     ^libro
 
 ]
@@ -62,6 +63,7 @@ Libro >> inicializarTodosLosAtributosisbn: unIsbn
     editorial:= unaEditorial.
     anioDeEdicion := unAnio.
     paginas:= numPaginas.
+	self plazoPrestamo:15. 
 ]
 
 { #category : 'accessing' }
@@ -77,10 +79,21 @@ Libro >> plazoEnDias [
 ^15
 ]
 
+{ #category : 'accessing' }
+Libro >> plazoPrestamo: unaCantidadDeDias [
+	"actualiza el plazo de préstamo a la cantidad de días solicitada"
+	plazoPrestamo := unaCantidadDeDias 
+]
+
 { #category : 'as yet unclassified' }
 Libro >> plazoVencimiento [ 
 	"getter días de vencimiento"
 ^plazoPrestamo 
+]
+
+{ #category : 'as yet unclassified' }
+Libro >> plazoVencimiento: unaCantidadDeDias [
+plazoPrestamo := unaCantidadDeDias .
 ]
 
 { #category : 'accessing' }
