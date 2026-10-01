@@ -24,11 +24,11 @@ Class {
 
 { #category : 'accessing' }
 Biblioteca class >> nombre: unNombre datePort: unDatePort [
-"new biblioteca + nombre + dateport"
-|unaBiblioteca|
-unaBiblioteca := self new.
-unaBiblioteca inicializar: unNombre en: unDatePort .
-^unaBiblioteca 
+	"new biblioteca + nombre + dateport"
+	|unaBiblioteca|
+	unaBiblioteca := self new.
+	unaBiblioteca inicializar: unNombre en: unDatePort .
+	^unaBiblioteca 
 ]
 
 { #category : 'layout' }
@@ -47,230 +47,196 @@ ventana
 { #category : 'updating' }
 Biblioteca >> agregarFicha: unLector [
 	"agrega la ficha asociada a un lector"
-
-	|nuevaFicha |
+	|nuevaFicha|
 	nuevaFicha := FichaDeLector deLector: unLector conPrestamosVigentes: (self prestamosVigentesDe: unLector numero).
 	fichas add: nuevaFicha .
-	
 	^nuevaFicha 
 ]
 
 { #category : 'updating' }
 Biblioteca >> agregarLector: unLector [
-	"recibe un lector y lo agrega a la lista de lectores y lo retorna. Si ya estaba en la lista retorna nil"
-	
-|lectorRetorno|
-	
-	
+	"recibe un lector y lo agrega a la lista de lectores y lo retorna. Si ya estaba en la lista retorna nil"	
+	|lectorRetorno|
 	(lectores anySatisfy: [:cadaLector | cadaLector numero = unLector numero or: (cadaLector cuit = unLector cuit) ])
-												ifTrue: [ self abrirTranscript. Transcript show:'el lector de cuit: " '; show: unLector cuit; show:  ' " ya está ingresado en el 	sistema de la biblioteca: '; show: nombre; cr.]
-												ifFalse:[ lectores add: unLector. lectorRetorno :=unLector.
-															self agregarFicha: unLector ].
+		ifTrue: [ 
+			self abrirTranscript.
+			Transcript show:'el lector de cuit: " '; show: unLector cuit; show:  ' " ya está ingresado en el 	sistema de la biblioteca: '; show: nombre; cr.
+		]
+		ifFalse:[ 
+			lectores add: unLector.
+			lectorRetorno :=unLector.
+			self agregarFicha: unLector
+		].
 	^lectorRetorno 													
 										
 ]
 
 { #category : 'accessing' }
 Biblioteca >> buscarLectoresPorApellido: unTexto [
-"busca y colecciona todas las fichas cuyos apellidos contengan unTexto (no necesariamente son iguales unTexto y el apellido, sino que apellido al menos contiene unTexto)"
-| fichasCoincidentes lectoresCoincidentes |
-
-lectoresCoincidentes := lectores select: [ :cadaLector | cadaLector apellidoContiene:unTexto ].
-fichasCoincidentes := fichas select: [ :cadaFicha | lectores anySatisfy: [ :cadaLector | cadaLector numero = cadaFicha numero]].
-
-^fichasCoincidentes 
+	"busca y colecciona todas las fichas cuyos apellidos contengan unTexto (no necesariamente son iguales unTexto y el apellido, sino que apellido al menos contiene unTexto)"
+	|fichasCoincidentes lectoresCoincidentes|
+	lectoresCoincidentes := lectores select: [ :cadaLector | cadaLector apellidoContiene:unTexto ].
+	fichasCoincidentes := fichas select: [ :cadaFicha | lectores anySatisfy: [ :cadaLector | cadaLector numero = cadaFicha numero ] ].
+	^fichasCoincidentes 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> cantidadDePrestamosDe: unNumero [
 	"devuelve la cantidad de préstamos totales (vigentes o no) de un socio asociado al número"
-
-	| cantidadDePrestamos |
-	
+	|cantidadDePrestamos|
 	cantidadDePrestamos := prestamos count: [ :cadaPrestamo | (cadaPrestamo lector) numero = unNumero ].
-	
 	^cantidadDePrestamos 
 ]
 
 { #category : 'updating' }
 Biblioteca >> catalogar: unMaterial [
-"catalogar recibe un material(libro o revista) y lo coloca en el catálogo. Si es el primer material crea un catálogo primero"
-
-"retorno devuelve nil si el material ya existía y unMaterial si se acaba de agregar"
-|retorno|
- 
-			(catalogo anySatisfy: [:cadaMaterial | cadaMaterial codigo = unMaterial codigo]) 
-				ifFalse: [catalogo add: unMaterial. 
-							retorno :=unMaterial]
-				 ifTrue: [self abrirTranscript .Transcript show: 'el material: '; show:unMaterial codigo; show: '  ya estaba previamente en el catálogo.';cr.] .
-
-^retorno
+	"catalogar recibe un material(libro o revista) y lo coloca en el catálogo. Si es el primer material crea un catálogo primero"
+	"retorno devuelve nil si el material ya existía y unMaterial si se acaba de agregar"
+	|retorno|
+	(catalogo anySatisfy: [:cadaMaterial | cadaMaterial codigo = unMaterial codigo]) 
+		ifFalse: [
+			catalogo add: unMaterial. 
+			retorno :=unMaterial
+		]
+		ifTrue: [
+			self abrirTranscript.
+			Transcript show: 'el material: '; show:unMaterial codigo; show: '  ya estaba previamente en el catálogo.'; cr.
+		].
+	^retorno
 ]
 
 { #category : 'getter' }
 Biblioteca >> catalogo [
 	"getter catalogo"
-^catalogo
+	^catalogo
 ]
 
 { #category : 'getter' }
 Biblioteca >> datePort [
-^datePort 
+	^datePort 
 ]
 
 { #category : 'setter' }
 Biblioteca >> datePort: unDatePort [
-datePort := unDatePort .
+	datePort := unDatePort .
 ]
 
 { #category : 'updating' }
 Biblioteca >> devolver: unNumeroIdentificador [
 	"devuelve una instancia de préstamo correspondiente al numero de id del material pero cerrada"
-
-	| prestamoAcerrar fechaActual|
-	
+	|prestamoAcerrar fechaActual|
 	"busca un préstamo relacionado al material identificado que no esté cerrado."
-	prestamoAcerrar:= prestamos detect:[:cadaPrestamo | 
-		(cadaPrestamo material) codigo = unNumeroIdentificador and: (cadaPrestamo estaVigente) ] ifNone:[nil].
-	
+	prestamoAcerrar:= prestamos detect:[ :cadaPrestamo | (cadaPrestamo material) codigo = unNumeroIdentificador and: (cadaPrestamo estaVigente) ] ifNone:[ nil ].
 	prestamoAcerrar 
-	ifNotNil:[
-		fechaActual := datePort now.
-		prestamoAcerrar devolucion: fechaActual]
-	ifNil: [ self abrirTranscript . Transcript show: 'el material de código: ';show: unNumeroIdentificador; show: 'no existe o no existe un préstamo vigente relacionado con éste'  ]	.
-	
+		ifNotNil:[
+			fechaActual := datePort now.
+			prestamoAcerrar devolucion: fechaActual
+		]
+		ifNil: [ self abrirTranscript . Transcript show: 'el material de código: '; show: unNumeroIdentificador; show: 'no existe o no existe un préstamo vigente relacionado con éste'  ]	.
 	^prestamoAcerrar 
-	
 	"esto supone que el préstamo existe. hay que preguntar si puede pasar que no exista"
 ]
 
 { #category : 'accessing' }
 Biblioteca >> esMoroso: unNumero [
 	"devuelve verdadero si el lector es moroso y falso si no lo es o no existe"
-
-	| morosidad |
-	
-	( self lectorNumero: unNumero )
+	|morosidad|
+	(self lectorNumero: unNumero )
 		ifNil:[ morosidad:= false ] 
 		ifNotNil: [ morosidad := (self lectorNumero: unNumero) esMoroso ]. 
-
 	^morosidad 	
 ]
 
 { #category : 'accessing' }
 Biblioteca >> estaPrestado: unCodigo [
 	"devuelve true si el material asociado al código está prestado actualmente y false si no lo está"
-
-	| materialEstaPrestado |
-	
+	|materialEstaPrestado|
 	materialEstaPrestado := (self prestamosVigentes ) anySatisfy: [ :cadaPrestamoVigente | (cadaPrestamoVigente material) codigo = unCodigo ].
-	
 	^materialEstaPrestado 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> identificarCuit: unCuit [
-"devuelve la ficha de cuit asociado a ese número o nil"
-| fichaSolicitada |
-
-fichaSolicitada := fichas detect: [ :cadaFicha | cadaFicha cuit = unCuit ] ifNone: [ self abrirTranscript .Transcript show: 'no existe una ficha asociada a este cuit '; show: unCuit ;cr ].
-
-^fichaSolicitada 
+	"devuelve la ficha de cuit asociado a ese número o nil"
+	|fichaSolicitada|
+	fichaSolicitada := fichas detect: [ :cadaFicha | cadaFicha cuit = unCuit ] ifNone: [ self abrirTranscript .Transcript show: 'no existe una ficha asociada a este cuit '; show: unCuit ; cr ].
+	^fichaSolicitada.
 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> identificarSocio: unNumero [
 	"devuelve la ficha de socio asociada a ese número o nil"
-		| fichaSolicitada |
-
+	|fichaSolicitada|
 	fichaSolicitada := fichas detect: [ :cadaFicha | cadaFicha numero = unNumero ] ifNone: [ nil ].
-	fichaSolicitada ifNil:[ self abrirTranscript .Transcript show: 'no existe una ficha asociada a este número: '; show: 	unNumero;cr].
-
+	fichaSolicitada ifNil: [ self abrirTranscript. Transcript show: 'no existe una ficha asociada a este número: '; show: unNumero; cr].
 	^fichaSolicitada 
 
 ]
 
 { #category : 'setter' }
 Biblioteca >> inicializar: unNombre en: unDatePort [
-"setter biblioteca"
-nombre:=unNombre.
-lectores:= OrderedCollection new.
-prestamos := OrderedCollection new.
-catalogo := OrderedCollection new.
-fichas := OrderedCollection new.
-datePort := unDatePort .
+	"setter biblioteca"
+	nombre:=unNombre.
+	lectores:= OrderedCollection new.
+	prestamos := OrderedCollection new.
+	catalogo := OrderedCollection new.
+	fichas := OrderedCollection new.
+	datePort := unDatePort.
 ]
 
 { #category : 'accessing' }
 Biblioteca >> lectorNumero: unNumero [
 	"busca y devuelve un lector asociado a el numero ingresado. Si no hay ninguno asociado a ese número se muestra un mensaje en pantalla y retorna nil"
-
-	| lectorAsociado |
-	
-	lectorAsociado := (lectores detect:[:cadaLector | cadaLector numero = unNumero ]ifNone:[nil]).
-	lectorAsociado ifNil: [ self abrirTranscript .Transcript show: 'No existe ningún lector asociado al número '; show: unNumero; cr] .
-	
+	|lectorAsociado|
+	lectorAsociado := (lectores detect: [ :cadaLector | cadaLector numero = unNumero ] ifNone:[ nil ]).
+	lectorAsociado ifNil: [ self abrirTranscript .Transcript show: 'No existe ningún lector asociado al número '; show: unNumero; cr].
 	^lectorAsociado 
 ]
 
 { #category : 'getter' }
 Biblioteca >> lectores [
-	"getter lectores"
-	
-^lectores 
+	"getter lectores"	
+	^lectores 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> lectoresMorosos [
 	" devuelve una lista de todos los lectores morosos "
-
-
-	| listaLectoresMorosos |
-	
+	|listaLectoresMorosos|
 	listaLectoresMorosos := lectores select: [ :cadaLector | cadaLector esMoroso ].
-	
-	^listaLectoresMorosos 
+	^listaLectoresMorosos.
 ]
 
 { #category : 'accessing' }
 Biblioteca >> materialCodigo: unNumero [
 	"busca y devuelve un material asociado a el numero ingresado. Si no hay ninguno asociado a ese número se muestra un mensaje en pantalla y retorna nil"
-
-	| materialAsociado |
-	
-	materialAsociado := (catalogo detect:[:cadaMaterial | cadaMaterial codigo = unNumero ]ifNone:[nil]).
-	materialAsociado ifNil: [self abrirTranscript .Transcript show: 'No existe ningún material asociado al número '; show: unNumero; cr] .
-	
+	|materialAsociado|
+	materialAsociado := (catalogo detect: [ :cadaMaterial | cadaMaterial codigo = unNumero ] ifNone:[ nil ]).
+	materialAsociado ifNil: [ self abrirTranscript .Transcript show: 'No existe ningún material asociado al número '; show: unNumero; cr].
 	^materialAsociado 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> materialesDe: unAutor [
 	"selecciona y devuelve del catálogo la lista de materiales que son del autor ingresado"
-
-	| listaDelAutor |
-	
-listaDelAutor := catalogo select:[:cadaMaterial | cadaMaterial autores = unAutor ].
-
-^listaDelAutor 
+	|listaDelAutor|
+	listaDelAutor := catalogo select: [ :cadaMaterial | cadaMaterial autores = unAutor ].
+	^listaDelAutor 
 
 ]
 
 { #category : 'getter' }
 Biblioteca >> nombre [
-"getter nombre"
-^nombre
+	"getter nombre"
+	^nombre
 ]
 
 { #category : 'accessing' }
 Biblioteca >> prestamoVigenteDe: unCodigo [ 
-	" devuelve el préstamo vigente asociado a un código (nil si no hay) "
-
-	| prestamoVigenteAsociado |
-	
-	prestamoVigenteAsociado:= (self prestamosVigentes) detect: [ :cadaPrestamoVigente | (cadaPrestamoVigente material) codigo = unCodigo ] ifNone: [ nil ].
-	 
+	"Devuelve el préstamo vigente asociado a un código (nil si no hay)"
+	|prestamoVigenteAsociado|
+	prestamoVigenteAsociado := (self prestamosVigentes) detect: [ :cadaPrestamoVigente | (cadaPrestamoVigente material) codigo = unCodigo ] ifNone: [ nil ].
 	^prestamoVigenteAsociado 
 	
 ]
@@ -278,97 +244,72 @@ Biblioteca >> prestamoVigenteDe: unCodigo [
 { #category : 'getter' }
 Biblioteca >> prestamos [
 	"getter prestamos"
-	
-^prestamos 
+	^prestamos 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> prestamosDe: unNumero [
 	"devuelve una lista con todos los préstamos que están a nombre del socio asociado al número"
-
-	| listaPrestamosAsociados |
-	
-	listaPrestamosAsociados:= prestamos select: [ :cadaPrestamo | (cadaPrestamo lector) numero = unNumero ].
-	
+	|listaPrestamosAsociados|
+	listaPrestamosAsociados := prestamos select: [ :cadaPrestamo | (cadaPrestamo lector) numero = unNumero ].
 	^listaPrestamosAsociados 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> prestamosDelMaterial: unCodigo [
 	"devuelve una lista de todos los prestamos relacionados al código ingreasado"
-
-	| listaPrestamosRelacionados |
-	
-	listaPrestamosRelacionados:= prestamos select: [ :cadaPrestamo | cadaPrestamo material codigo = unCodigo ].
-	
+	|listaPrestamosRelacionados|
+	listaPrestamosRelacionados := prestamos select: [ :cadaPrestamo | cadaPrestamo material codigo = unCodigo ].
 	^listaPrestamosRelacionados 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> prestamosVencidos [
 	" devuelve una lista de todos los préstamos vencidos  "
-
-	| listaPrestamosVencidos|
-
+	|listaPrestamosVencidos|
 	listaPrestamosVencidos := prestamos select: [ :cadaPrestamo | (cadaPrestamo estaVencidoA: datePort now) ].
-	
 	^listaPrestamosVencidos 
 ]
 
 { #category : 'accessing' }
 Biblioteca >> prestamosVigentes [
 	" devuelve una lista de todos los préstamos vigentes (material no devuelto)  "
-
-	| listaPrestamosVigente|
-
+	|listaPrestamosVigente|
 	listaPrestamosVigente := prestamos select: [ :cadaPrestamo | (cadaPrestamo estaVigente) ].
-	
-	^listaPrestamosVigente 
+	^listaPrestamosVigente.
 ]
 
 { #category : 'accessing' }
 Biblioteca >> prestamosVigentesDe: unNumeroSocio [
 	"devuelve todas las instancias de prestamos vigentes del socio asociado al número"
-
-
-	| prestamosAsociadosASocioVigentes |
-	
-		prestamosAsociadosASocioVigentes := (self prestamosVigentes ) select:[ :cadaPrestamoVigente | (self prestamosDe: unNumeroSocio ) includes: cadaPrestamoVigente ] .
-
-^prestamosAsociadosASocioVigentes 
+	|prestamosAsociadosASocioVigentes|
+	prestamosAsociadosASocioVigentes := (self prestamosVigentes ) select: [ :cadaPrestamoVigente | (self prestamosDe: unNumeroSocio ) includes: cadaPrestamoVigente ].
+	^prestamosAsociadosASocioVigentes.
 ]
 
 { #category : 'updating' }
 Biblioteca >> prestar: unCodigo a: unNumero [
 	"crea un préstamo del material al lector, lo agrega al registro y lo retorna. Si el código o el socio no existen, si el lector es moroso, o si el material ya está prestado, retorna nil e informa por el Transcript la situación"
-	
-|lectorPrestamo materialPrestamo prestamoArealizar validezPrestamo|
-
-	lectorPrestamo := self lectorNumero: unNumero .
+	|lectorPrestamo materialPrestamo prestamoArealizar validezPrestamo|
+	lectorPrestamo := self lectorNumero: unNumero.
 	materialPrestamo := self materialCodigo: unCodigo.
-	
 	validezPrestamo := lectorPrestamo isNotNil and: (materialPrestamo isNotNil and: ((lectorPrestamo esMoroso)not or: (self estaPrestado: unCodigo)not )). 
-	 
 	validezPrestamo 
-	  ifTrue: [ prestamoArealizar:= Prestamo material: materialPrestamo lector: lectorPrestamo instante: (datePort now).
-			 prestamos add: prestamoArealizar ] 
-		
-    	ifFalse:[self abrirTranscript .Transcript show: 'No se pudo crear el préstamo.'; cr.].	
-							
-		^prestamoArealizar 
+		ifTrue: [ 
+			prestamoArealizar := Prestamo material: materialPrestamo lector: lectorPrestamo instante: (datePort now).
+			prestamos add: prestamoArealizar 
+		]
+    	ifFalse: [ self abrirTranscript. Transcript show: 'No se pudo crear el préstamo.'; cr. ].	
+	^prestamoArealizar 
 ]
 
 { #category : 'updating' }
 Biblioteca >> rehabilitar: unNumero [
 	"levanta la marca de morosidad del lector. Si era moroso, ya no es más moroso y devuelve true. Si el lector no existe o no era moroso devuelve false y no modifica nada"
-	
 	|cambioEstado lector|
-	
 	lector:= self lectorNumero: unNumero.
 	(lector isNotNil and: (lector esMoroso))
-		ifTrue: [ lector moroso: false. cambioEstado:= true ]
-		ifFalse: [ cambioEstado:= false ].
-		
-	
+		ifTrue: [ lector moroso: false. cambioEstado := true ]
+		ifFalse: [ cambioEstado := false ].
 	^cambioEstado 	
 ]

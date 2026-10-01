@@ -85,13 +85,13 @@ Libro >> plazoPrestamo: unaCantidadDeDias [
 	plazoPrestamo := unaCantidadDeDias 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Libro >> plazoVencimiento [ 
 	"getter días de vencimiento"
 ^plazoPrestamo 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Libro >> plazoVencimiento: unaCantidadDeDias [
 plazoPrestamo := unaCantidadDeDias .
 ]

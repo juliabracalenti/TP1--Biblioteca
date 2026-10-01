@@ -132,7 +132,7 @@ MaterialCatalogado >> plazoVencimiento [
 ^self subclassResponsibility 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 MaterialCatalogado >> plazoVencimiento: unaCantidadDeDias [
 ^self subclassResponsibility 
 ]

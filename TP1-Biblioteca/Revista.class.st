@@ -104,13 +104,13 @@ Revista >> plazoEnDias [
 ^plazoPrestamo 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Revista >> plazoVencimiento [ 
 	"getter días de vencimiento"
 ^plazoPrestamo 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 Revista >> plazoVencimiento: unaCantidadDeDias [
 plazoPrestamo := unaCantidadDeDias .
 ]

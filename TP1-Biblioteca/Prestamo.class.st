@@ -56,9 +56,9 @@ devolucion:= unaFecha .
 { #category : 'accessing' }
 Prestamo >> dias [
 	"Cuantos dias duró, o nil si todavia no volvió."
-	^
-	(self estaVigente)
-	ifTrue: [ nil ] ifFalse: [ (devolucion - inicio ) ]
+	^(self estaVigente)
+		ifTrue: [ nil ]
+		ifFalse: [ (devolucion - inicio ) ]
 	
 ]
 

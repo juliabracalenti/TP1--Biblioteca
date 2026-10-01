@@ -43,8 +43,8 @@ FichaDeLector >> cantidadEnPoder [
 
 { #category : 'accessing' }
 FichaDeLector >> codigosEnPoder [
-"devuelve una lista de los códigos de los materiales que tiene actualmetne en su poder"
-^codigosEnPoder 
+	"devuelve una lista de los códigos de los materiales que tiene actualmetne en su poder"
+	^codigosEnPoder 
 
 	
 ]
@@ -57,7 +57,7 @@ FichaDeLector >> cuit [
 
 { #category : 'accessing' }
 FichaDeLector >> esMoroso [
-"getter es moroso"
+	"getter es moroso"
 	^esMoroso.
 ]
 
@@ -76,24 +76,24 @@ FichaDeLector >> initializeFicha: conLector yPrestamos: prestamosVigentes [
 
 { #category : 'accessing' }
 FichaDeLector >> motivoDeRechazo [
-"getter motivo de rechazo"
+	"getter motivo de rechazo"
 	^motivoDeRechazo.
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> nombreCompleto [
-"getter nombre completo"
+	"getter nombre completo"
 	^nombreCompleto.
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> numero [
-"getter numero"
+	"getter numero"
 	^numero.
 ]
 
 { #category : 'accessing' }
 FichaDeLector >> puedeLlevar [
-"getter puedeLlevar"
+	"getter puedeLlevar"
 	^puedeLlevar.
 ]

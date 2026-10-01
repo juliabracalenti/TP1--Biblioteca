@@ -16,6 +16,5 @@ DatePort class >> isAbstract [
 { #category : 'getter' }
 DatePort >> now [
 	"devuelve la fecha actual o una fecha forzada en caso de pruebas"
-	
-^self subclassResponsibility 
+	^self subclassResponsibility 
 ]

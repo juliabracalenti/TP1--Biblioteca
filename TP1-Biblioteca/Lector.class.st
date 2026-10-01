@@ -39,17 +39,13 @@ Lector >> apellido [
 
 { #category : 'accessing' }
 Lector >> apellido: unApellido [
-"setter apellido"
-	unApellido isString
-		ifFalse: [ self error: 'El apellido debe ser de tipo String' ].
+	"setter apellido"
 	apellido := unApellido.
 ]
 
 { #category : 'comparing' }
 Lector >> apellidoContiene: unTexto [
-"devuelve un booleano true si apellido contiene al texto ingresado, false si no lo hace"
-	unTexto isString
-		ifFalse: [ self error: 'El argumento debe ser de tipo String' ].
+	"devuelve un booleano true si apellido contiene al texto ingresado, false si no lo hace"
 	^apellido asLowercase includesSubstring: unTexto asLowercase.
 ]
 
@@ -62,7 +58,6 @@ Lector >> cuit [
 { #category : 'accessing' }
 Lector >> cuit: unCuit [
 	"setter cuit"
-	
 	cuit := unCuit.
 ]
 
@@ -94,8 +89,6 @@ Lector >> nombre [
 { #category : 'accessing' }
 Lector >> nombre: unNombre [
 	"setter nombre"
-	unNombre isString
-		ifFalse: [ self error: 'El nombre debe ser de tipo String' ].
 	nombre := unNombre.
 ]
 
@@ -114,8 +107,6 @@ Lector >> numero [
 { #category : 'accessing' }
 Lector >> numero: unNumeroDeSocio [
 	"setter numero de socio"
-	unNumeroDeSocio isInteger
-		ifFalse: [ self error: 'El número de socio debe ser de tipo Integer' ].
 	numero := unNumeroDeSocio.
 ]
 
