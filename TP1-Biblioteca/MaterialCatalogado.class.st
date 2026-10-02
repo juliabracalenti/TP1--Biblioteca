@@ -31,7 +31,7 @@ MaterialCatalogado >> anioDeEdicion [
 MaterialCatalogado >> autorPrincipal [ 
 "getter autorPrincipal"
 
-^ autores ifNil: [  nil. ] ifNotNil: [autores at: 1 .]
+^ autores ifNil: [  nil. ] ifNotNil: [autores first.]
 
 
 ]

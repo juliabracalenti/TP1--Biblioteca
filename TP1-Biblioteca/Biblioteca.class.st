@@ -32,7 +32,7 @@ Biblioteca class >> nombre: unNombre datePort: unDatePort [
 
 { #category : 'layout' }
 Biblioteca >> abrirTranscript [
-"si no está abierto el transcript lo hace y si lo está la trae al frente"
+"si no está abierto el transcript lo hace y si lo está la trae al frente. Método hecho con IA"
 | ventana |
 ventana := World submorphs
     detect: [ :m | m isSystemWindow and: [ m label = 'Transcript' ] ]
@@ -47,10 +47,11 @@ ventana
 Biblioteca >> agregarLector: unLector [
 	"recibe un lector y lo agrega a la lista de lectores y lo retorna. Si ya estaba en la lista retorna nil"	
 	|lectorRetorno|
-	(lectores anySatisfy: [:cadaLector | cadaLector numero = unLector numero or: (cadaLector cuit = unLector cuit) ])
+	
+	(lectores anySatisfy: [:cadaLector | (cadaLector numero = unLector numero) or: (cadaLector cuit = unLector cuit) ])
 		ifTrue: [ 
 			self abrirTranscript.
-			Transcript show:'el lector de cuit: " '; show: unLector cuit; show:  ' " ya está ingresado en el 	sistema de la biblioteca: '; show: nombre; cr.
+			Transcript show:'el lector de cuit: " '; show: unLector cuit; show:  ' " o número: " '; show: unLector numero; show:' " ya está ingresado en el 	sistema de la biblioteca: '; show: nombre; cr.
 		]
 		ifFalse:[ 
 			lectores add: unLector.

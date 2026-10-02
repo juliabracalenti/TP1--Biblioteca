@@ -75,9 +75,9 @@ Lector >> marcarMoroso [
 
 { #category : 'accessing' }
 Lector >> motivoDeRechazo [
-	^esMoroso
-		ifTrue: [ #enMora ]
-		ifFalse: [ ].
+	
+	^esMoroso ifTrue: [ #enMora ] ifFalse:[].
+		
 ]
 
 { #category : 'accessing' }

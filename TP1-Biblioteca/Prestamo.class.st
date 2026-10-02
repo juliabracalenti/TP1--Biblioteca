@@ -103,7 +103,7 @@ Prestamo >> inicio [
 Prestamo >> inicioYvencimiento: unInstante [
 	"setter de inicio y vencimiento"
 	inicio := unInstante .
-	vencimiento := unInstante + (Duration days:(material plazoVencimiento))
+	vencimiento := unInstante + (Duration days:(material plazoEnDias))
 	
 ]
 
