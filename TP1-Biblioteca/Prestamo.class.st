@@ -49,7 +49,7 @@ Prestamo >> devolucion [
 { #category : 'updating' }
 Prestamo >> devolucion: unaFecha [
 	"setter de fecha de devolución"
-devolucion:= unaFecha .
+devolucion:= unaFecha. 
 ^self
 ]
 

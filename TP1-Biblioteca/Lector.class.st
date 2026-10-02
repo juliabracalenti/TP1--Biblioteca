@@ -12,7 +12,7 @@ Class {
 		'cuit',
 		'nombre',
 		'apellido',
-		'moroso'
+		'esMoroso'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
@@ -64,18 +64,18 @@ Lector >> cuit: unCuit [
 { #category : 'accessing' }
 Lector >> esMoroso [
 "getter moroso"
-	^moroso.
+	^esMoroso.
 ]
 
 { #category : 'updating' }
 Lector >> marcarMoroso [
-	moroso := true.
+	esMoroso := true.
 	^self yourself.
 ]
 
 { #category : 'accessing' }
 Lector >> motivoDeRechazo [
-	^moroso
+	^esMoroso
 		ifTrue: [ #enMora ]
 		ifFalse: [ ].
 ]
@@ -112,11 +112,11 @@ Lector >> numero: unNumeroDeSocio [
 
 { #category : 'accessing' }
 Lector >> puedeLlevar [
-	^moroso ifTrue: [ false ] ifFalse: [ true ].
+	^esMoroso ifTrue: [ false ] ifFalse: [ true ].
 ]
 
 { #category : 'updating' }
 Lector >> rehabilitar [
-	moroso := false.
+	esMoroso := false.
 	^self yourself.
 ]

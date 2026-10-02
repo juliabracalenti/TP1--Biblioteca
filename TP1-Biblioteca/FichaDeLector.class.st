@@ -71,7 +71,7 @@ FichaDeLector >> initializeFicha: conLector yPrestamos: prestamosVigentes [
 	esMoroso := conLector esMoroso.
 	puedeLlevar := conLector puedeLlevar.
 	motivoDeRechazo := conLector motivoDeRechazo.
-	codigosEnPoder := prestamosVigentes collect: [ :unPrestamo | unPrestamo material identificador ].
+	codigosEnPoder := (prestamosVigentes )ifNotNil: [prestamosVigentes collect: [ :unPrestamo | unPrestamo material codigo ] ]ifNil: [ OrderedCollection new].
 ]
 
 { #category : 'accessing' }

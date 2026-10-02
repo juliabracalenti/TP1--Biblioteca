@@ -122,9 +122,10 @@ Biblioteca >> devolver: unNumeroIdentificador [
 	prestamoAcerrar 
 		ifNotNil:[
 			fechaActual := datePort now.
-			prestamoAcerrar devolucion: fechaActual
+			prestamoAcerrar devolucion: fechaActual.
+			prestamoAcerrar excedioPlazo ifTrue: [ prestamoAcerrar lector marcarMoroso ]
 		]
-		ifNil: [ self abrirTranscript . Transcript show: 'el material de código: '; show: unNumeroIdentificador; show: 'no existe o no existe un préstamo vigente relacionado con éste'  ]	.
+		ifNil: [ self abrirTranscript . Transcript show: 'el material de código: '; show: unNumeroIdentificador; show: ' no existe o no existe un préstamo vigente relacionado con éste'  ]	.
 	^prestamoAcerrar 
 	"esto supone que el préstamo existe. hay que preguntar si puede pasar que no exista"
 ]
@@ -142,8 +143,10 @@ Biblioteca >> esMoroso: unNumero [
 { #category : 'accessing' }
 Biblioteca >> estaPrestado: unCodigo [
 	"devuelve true si el material asociado al código está prestado actualmente y false si no lo está"
+	
 	|materialEstaPrestado|
-	materialEstaPrestado := (self prestamosVigentes ) anySatisfy: [ :cadaPrestamoVigente | (cadaPrestamoVigente material) codigo = unCodigo ].
+	materialEstaPrestado := self prestamosVigentes anySatisfy: [ :cadaPrestamo | (cadaPrestamo material) codigo = unCodigo ].
+	
 	^materialEstaPrestado 
 ]
 
@@ -166,9 +169,11 @@ Biblioteca >> identificarSocio: unNumero [
 
 	|fichaSolicitada lectorAsociado|
 	lectorAsociado := self lectorNumero: unNumero . 
+	
 		lectorAsociado 
-				ifNil: [ self abrirTranscript. Transcript show: 'no existe una ficha asociada a este número: '; show: unNumero; cr ] 
-				ifNotNil: [ fichaSolicitada:= FichaDeLector deLector: lectorAsociado conPrestamosVigentes:(self prestamoVigenteDe: (lectorAsociado numero)) ].
+			ifNil: [ self abrirTranscript. Transcript show: 'no existe una ficha asociada a este número: '; show: unNumero; cr ] 
+			ifNotNil: [ fichaSolicitada:= FichaDeLector deLector: lectorAsociado conPrestamosVigentes:(self prestamosVigentesDe: (lectorAsociado numero)) ].
+			
 	^fichaSolicitada.
 ]
 
@@ -284,6 +289,7 @@ Biblioteca >> prestamosVigentes [
 	" devuelve una lista de todos los préstamos vigentes (material no devuelto)  "
 	|listaPrestamosVigente|
 	listaPrestamosVigente := prestamos select: [ :cadaPrestamo | (cadaPrestamo estaVigente) ].
+	
 	^listaPrestamosVigente.
 ]
 
@@ -291,7 +297,8 @@ Biblioteca >> prestamosVigentes [
 Biblioteca >> prestamosVigentesDe: unNumeroSocio [
 	"devuelve todas las instancias de prestamos vigentes del socio asociado al número"
 	|prestamosAsociadosASocioVigentes|
-	prestamosAsociadosASocioVigentes := (self prestamosVigentes ) select: [ :cadaPrestamoVigente | (self prestamosDe: unNumeroSocio ) includes: cadaPrestamoVigente ].
+	prestamosAsociadosASocioVigentes := (self prestamosVigentes ) select: [ :cadaPrestamoVigente | cadaPrestamoVigente lector numero = unNumeroSocio ].
+	
 	^prestamosAsociadosASocioVigentes.
 ]
 
@@ -301,7 +308,7 @@ Biblioteca >> prestar: unCodigo a: unNumero [
 	|lectorPrestamo materialPrestamo prestamoArealizar validezPrestamo|
 	lectorPrestamo := self lectorNumero: unNumero.
 	materialPrestamo := self materialCodigo: unCodigo.
-	validezPrestamo := lectorPrestamo isNotNil and: (materialPrestamo isNotNil and: ((lectorPrestamo esMoroso)not or: (self estaPrestado: unCodigo)not )). 
+	validezPrestamo := lectorPrestamo isNotNil and: (materialPrestamo isNotNil and: ((lectorPrestamo esMoroso)not and: (self estaPrestado: unCodigo)not )). 
 	validezPrestamo 
 		ifTrue: [ 
 			prestamoArealizar := Prestamo material: materialPrestamo lector: lectorPrestamo instante: (datePort now).
@@ -317,7 +324,7 @@ Biblioteca >> rehabilitar: unNumero [
 	|cambioEstado lector|
 	lector:= self lectorNumero: unNumero.
 	(lector isNotNil and: (lector esMoroso))
-		ifTrue: [ lector moroso: false. cambioEstado := true ]
+		ifTrue: [ lector rehabilitar . cambioEstado := true ]
 		ifFalse: [ cambioEstado := false ].
 	^cambioEstado 	
 ]
