@@ -15,8 +15,7 @@ Class {
 		'datePort',
 		'catalogo',
 		'lectores',
-		'prestamos',
-		'fichas'
+		'prestamos'
 	],
 	#category : 'TP1-Biblioteca',
 	#package : 'TP1-Biblioteca'
@@ -45,15 +44,6 @@ ventana
 ]
 
 { #category : 'updating' }
-Biblioteca >> agregarFicha: unLector [
-	"agrega la ficha asociada a un lector"
-	|nuevaFicha|
-	nuevaFicha := FichaDeLector deLector: unLector conPrestamosVigentes: (self prestamosVigentesDe: unLector numero).
-	fichas add: nuevaFicha .
-	^nuevaFicha 
-]
-
-{ #category : 'updating' }
 Biblioteca >> agregarLector: unLector [
 	"recibe un lector y lo agrega a la lista de lectores y lo retorna. Si ya estaba en la lista retorna nil"	
 	|lectorRetorno|
@@ -65,7 +55,6 @@ Biblioteca >> agregarLector: unLector [
 		ifFalse:[ 
 			lectores add: unLector.
 			lectorRetorno :=unLector.
-			self agregarFicha: unLector
 		].
 	^lectorRetorno 													
 										
@@ -75,8 +64,11 @@ Biblioteca >> agregarLector: unLector [
 Biblioteca >> buscarLectoresPorApellido: unTexto [
 	"busca y colecciona todas las fichas cuyos apellidos contengan unTexto (no necesariamente son iguales unTexto y el apellido, sino que apellido al menos contiene unTexto)"
 	|fichasCoincidentes lectoresCoincidentes|
+	
 	lectoresCoincidentes := lectores select: [ :cadaLector | cadaLector apellidoContiene:unTexto ].
-	fichasCoincidentes := fichas select: [ :cadaFicha | lectores anySatisfy: [ :cadaLector | cadaLector numero = cadaFicha numero ] ].
+	
+	fichasCoincidentes := lectoresCoincidentes collect: [ :cadaLector | FichaDeLector deLector: cadaLector conPrestamosVigentes: (self prestamoVigenteDe: (cadaLector numero)) ].
+	
 	^fichasCoincidentes 
 ]
 
@@ -158,8 +150,12 @@ Biblioteca >> estaPrestado: unCodigo [
 { #category : 'accessing' }
 Biblioteca >> identificarCuit: unCuit [
 	"devuelve la ficha de cuit asociado a ese número o nil"
-	|fichaSolicitada|
-	fichaSolicitada := fichas detect: [ :cadaFicha | cadaFicha cuit = unCuit ] ifNone: [ self abrirTranscript .Transcript show: 'no existe una ficha asociada a este cuit '; show: unCuit ; cr ].
+	|fichaSolicitada lectorAsociado|
+	lectorAsociado := self lectorCuit: unCuit. 
+		lectorAsociado 
+				ifNil: [ self abrirTranscript .Transcript show: 'no existe una ficha asociada a este cuit '; show: unCuit ; cr ] 
+				ifNotNil: [ fichaSolicitada:= FichaDeLector deLector: lectorAsociado conPrestamosVigentes:(self prestamoVigenteDe: (lectorAsociado numero)) ].
+
 	^fichaSolicitada.
 
 ]
@@ -167,11 +163,13 @@ Biblioteca >> identificarCuit: unCuit [
 { #category : 'accessing' }
 Biblioteca >> identificarSocio: unNumero [
 	"devuelve la ficha de socio asociada a ese número o nil"
-	|fichaSolicitada|
-	fichaSolicitada := fichas detect: [ :cadaFicha | cadaFicha numero = unNumero ] ifNone: [ nil ].
-	fichaSolicitada ifNil: [ self abrirTranscript. Transcript show: 'no existe una ficha asociada a este número: '; show: unNumero; cr].
-	^fichaSolicitada 
 
+	|fichaSolicitada lectorAsociado|
+	lectorAsociado := self lectorNumero: unNumero . 
+		lectorAsociado 
+				ifNil: [ self abrirTranscript. Transcript show: 'no existe una ficha asociada a este número: '; show: unNumero; cr ] 
+				ifNotNil: [ fichaSolicitada:= FichaDeLector deLector: lectorAsociado conPrestamosVigentes:(self prestamoVigenteDe: (lectorAsociado numero)) ].
+	^fichaSolicitada.
 ]
 
 { #category : 'setter' }
@@ -181,8 +179,18 @@ Biblioteca >> inicializar: unNombre en: unDatePort [
 	lectores:= OrderedCollection new.
 	prestamos := OrderedCollection new.
 	catalogo := OrderedCollection new.
-	fichas := OrderedCollection new.
 	datePort := unDatePort.
+]
+
+{ #category : 'accessing' }
+Biblioteca >> lectorCuit: unCuit [
+	"busca el lector asociado a un cuit, si no hay ninguno devuelve nil e informa"
+	|lectorAsociado|
+	lectorAsociado := (lectores detect: [ :cadaLector | cadaLector cuit = unCuit ] ifNone:[ nil ]).
+	
+	lectorAsociado ifNil: [ self abrirTranscript .Transcript show: 'No existe ningún lector asociado al número '; show: unCuit; cr].
+	^lectorAsociado 
+	
 ]
 
 { #category : 'accessing' }

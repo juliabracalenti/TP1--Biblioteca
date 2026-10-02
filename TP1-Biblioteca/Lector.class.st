@@ -46,7 +46,7 @@ Lector >> apellido: unApellido [
 { #category : 'comparing' }
 Lector >> apellidoContiene: unTexto [
 	"devuelve un booleano true si apellido contiene al texto ingresado, false si no lo hace"
-	^apellido asLowercase includesSubstring: unTexto asLowercase.
+	^(apellido asLowercase includesSubstring: unTexto asLowercase)
 ]
 
 { #category : 'accessing' }
