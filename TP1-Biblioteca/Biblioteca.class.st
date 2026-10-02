@@ -143,10 +143,8 @@ Biblioteca >> esMoroso: unNumero [
 { #category : 'accessing' }
 Biblioteca >> estaPrestado: unCodigo [
 	"devuelve true si el material asociado al código está prestado actualmente y false si no lo está"
-	
 	|materialEstaPrestado|
 	materialEstaPrestado := self prestamosVigentes anySatisfy: [ :cadaPrestamo | (cadaPrestamo material) codigo = unCodigo ].
-	
 	^materialEstaPrestado 
 ]
 

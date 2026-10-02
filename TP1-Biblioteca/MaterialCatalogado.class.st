@@ -27,12 +27,6 @@ MaterialCatalogado >> anioDeEdicion [
 ^anioDeEdicion 
 ]
 
-{ #category : 'accessing' }
-MaterialCatalogado >> anioDeEdicion: unAnio [
-"setter año de edición"
-anioDeEdicion := unAnio .
-]
-
 { #category : 'getter' }
 MaterialCatalogado >> autorPrincipal [ 
 "getter autorPrincipal"
@@ -48,15 +42,6 @@ MaterialCatalogado >> autores [
 	|autorescopia|
 autorescopia:=autores.
 ^autorescopia 
-
-]
-
-{ #category : 'accessing' }
-MaterialCatalogado >> autores: unAutor [ 
-"setter autores"
-
-autores ifNil: [ autores:= OrderedCollection new. ].
-autores add: unAutor. 
 
 ]
 
@@ -86,13 +71,6 @@ MaterialCatalogado >> editorial [
 "getter editorial"
 ^editorial 
 
-]
-
-{ #category : 'accessing' }
-MaterialCatalogado >> editorial: unaEditorial [
-
-"setter editorial"
-editorial:=unaEditorial .
 ]
 
 { #category : 'accessing' }
