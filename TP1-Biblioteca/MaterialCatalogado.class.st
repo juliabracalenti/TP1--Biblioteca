@@ -60,10 +60,10 @@ autores add: unAutor.
 
 ]
 
-{ #category : 'abstract' }
+{ #category : 'accessing' }
 MaterialCatalogado >> codigo [ 
-"devuelve el ISBN o el ISSN+num según corresponda"
-^self subclassResponsibility
+	"devuelve el ISBN o el ISSN+num según corresponda"
+	^self subclassResponsibility
 
 ]
 
@@ -120,34 +120,23 @@ MaterialCatalogado >> paginas: cantidadPaginas [
 paginas:= cantidadPaginas .
 ]
 
-{ #category : 'abstract' }
+{ #category : 'accessing' }
 MaterialCatalogado >> plazoEnDias [ 
 	"getter días de vencimiento de material para devolver"
-^self subclassResponsibility 
+	^self subclassResponsibility 
 ]
 
 { #category : 'accessing' }
-MaterialCatalogado >> plazoVencimiento [
-	"getter días de vencimiento de material para devolver"
-^self subclassResponsibility 
-]
-
-{ #category : 'accessing' }
-MaterialCatalogado >> plazoVencimiento: unaCantidadDeDias [
-^self subclassResponsibility 
-]
-
-{ #category : 'abstract' }
 MaterialCatalogado >> tipo [ 
- "getter tipo"
-^self subclassResponsibility
+	"getter tipo"
+	^self subclassResponsibility
 
 ]
 
-{ #category : 'abstract' }
+{ #category : 'accessing' }
 MaterialCatalogado >> tipoDeIdentificador [ 
- "getter tipoDeIdentificador"
-^self subclassResponsibility
+	"getter tipoDeIdentificador"
+	^self subclassResponsibility
 
 ]
 

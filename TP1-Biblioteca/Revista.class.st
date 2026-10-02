@@ -8,7 +8,6 @@ Class {
 	#name : 'Revista',
 	#superclass : 'MaterialCatalogado',
 	#instVars : [
-		'plazoPrestamo',
 		'issn',
 		'numero',
 		'mesDeEdicion'
@@ -53,78 +52,59 @@ revista
 
 { #category : 'accessing' }
 Revista >> codigo [ 
-"devuelve el ISBN o el ISSN+num según corresponda"
-^issn,'-', numero asString
+	"devuelve el ISBN o el ISSN+num según corresponda"
+	^issn, '-', numero asString
 
 ]
 
 { #category : 'initialization' }
-Revista >> inicializarTodosLosAtributosissn: unIssn 
-      titulo: unTitulo 
-     autores: unaColeccionDeAutores
-     editorial: unaEditorial
-     anio: unAnio 
-     paginas: numPaginas 
-     numero: unNumero 
-     mesDeEdicion: unMes [
-issn:= unIssn .
- titulo:= unTitulo .
- autores:= unaColeccionDeAutores.
-editorial:= unaEditorial.
- anioDeEdicion := unAnio .
- paginas:= numPaginas .
- numero:= unNumero .
- mesDeEdicion:= unMes.
-self plazoVencimiento: 7.
+Revista >> inicializarTodosLosAtributosissn: unIssn titulo: unTitulo autores: unaColeccionDeAutores editorial: unaEditorial anio: unAnio paginas: numPaginas numero: unNumero mesDeEdicion: unMes [
+	issn:= unIssn.
+	titulo:= unTitulo.
+	autores:= unaColeccionDeAutores.
+	editorial:= unaEditorial.
+	anioDeEdicion := unAnio.
+	paginas:= numPaginas.
+	numero:= unNumero.
+	mesDeEdicion:= unMes.
 ]
 
 { #category : 'accessing' }
 Revista >> issn [ 
- "getter isbn"
-^issn
+	"getter isbn"
+	^issn
 
 ]
 
 { #category : 'accessing' }
 Revista >> mesDeEdicion [ 
- "getter mesDeEdicion"
-^mesDeEdicion
+	"getter mesDeEdicion"
+	^mesDeEdicion
 
 ]
 
 { #category : 'accessing' }
 Revista >> numero [ 
- "getter numero"
-^numero
+	"getter numero"
+	^numero
 
 ]
 
-{ #category : 'abstract' }
+{ #category : 'accessing' }
 Revista >> plazoEnDias [ 
-^plazoPrestamo 
-]
-
-{ #category : 'accessing' }
-Revista >> plazoVencimiento [ 
-	"getter días de vencimiento"
-^plazoPrestamo 
-]
-
-{ #category : 'accessing' }
-Revista >> plazoVencimiento: unaCantidadDeDias [
-plazoPrestamo := unaCantidadDeDias .
+	^7.
 ]
 
 { #category : 'accessing' }
 Revista >> tipo [ 
- "getter tipo"
-^'revista'
+	"getter tipo"
+	^'revista'
 
 ]
 
 { #category : 'accessing' }
 Revista >> tipoDeIdentificador [ 
- "getter tipoDeIdentificador"
-^'ISSN'
+	"getter tipoDeIdentificador"
+	^'ISSN'
 
 ]
